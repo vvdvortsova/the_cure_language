@@ -22,14 +22,14 @@ public:
 class Num: public Token {
     double value;
 public:
-    explicit Num(double val): Token(0, NUMBER), value(val){}
+    explicit Num(double val): Token(0, CLASS_NUMBER), value(val){}
     double getValue() const { return value;}
 };
 
 class Var:     public Token {
     char* ch;
 public:
-    explicit Var(char* _ch): Token(0, VARIABLE), ch(_ch){}
+    explicit Var(char* _ch): Token(0, CLASS_VARIABLE), ch(_ch){}
     char* getCh() const { return ch;}
 };
 
@@ -57,37 +57,6 @@ public:
     explicit SystemOP(int priority, int _type): Token(priority, _type){};
 };
 
-
-
-//class UnMinus: public Token {
-//public:
-//    explicit UnMinus(): Token(2){};
-//};
-//class Sin:     public Token {
-//public:
-//    explicit Sin(): Token(3){};
-//};
-//class Cos:     public Token {
-//public:
-//    explicit Cos(): Token(3){};
-//};
-//class Mul:     public Token {
-//public:
-//    explicit Mul(): Token(2){};
-//};
-//class Add:     public Token {
-//public:
-//    explicit Add(): Token(1){};
-//};
-//class Sub:     public Token {
-//public:
-//    explicit Sub(): Token(1){};
-//};
-//class Div:     public Token {
-//public:
-//    explicit Div(): Token(2){}
-//};
-
 class Pow:     public Token {
 public:
     explicit Pow(): Token(3, POW){}
@@ -111,7 +80,7 @@ public:
 class FuncName: public Token {
     char* ch;
 public:
-    explicit FuncName(char* _ch): Token(0, FUNC_NAMES), ch(_ch){}
+    explicit FuncName(char* _ch): Token(0, CLASS_FUNC_NAME), ch(_ch){}
     char* getCh() const { return ch;}
 };
 
@@ -122,17 +91,17 @@ public:
 
 class End:     public Token {
 public:
-    explicit  End(): Token(0, END){}
+    explicit  End(): Token(0, CLASS_END){}
 };
 
 class Point:     public Token {
 public:
-    explicit  Point(): Token(0, POINT){}
+    explicit  Point(): Token(0, CLASS_POINT){}
 };
 
 class AssignOP: public Token {
 public:
-    explicit  AssignOP(): Token(0, ASSIGN){}
+    explicit  AssignOP(): Token(0, CLASS_ASSIGN){}
 };
 
 /**
@@ -144,7 +113,7 @@ std::vector<Token*> doLexer(char* expr);
 
 char* getExpressionFromFile(char* fName, int* size);
 int checkSystemOp(char* op, int* offset);
-int checkMathOP(char* mathOp);
+int checkMathOP(char* mathOp, int* offset);
 int checkBoolOp(char* op, int* offset);
 
 #endif //THE_CURE_LANGUAGE_LEXER_H

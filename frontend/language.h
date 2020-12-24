@@ -4,7 +4,6 @@
 
 #include <vector>
 #include <fstream>
-#include  "lexer.h"
 
 enum MATH_OP_TYPE {
     ADD = 0,
@@ -24,16 +23,16 @@ enum BOOL_OP {
 };
 
 enum TYPE {
-    NUMBER = 100,
-    VARIABLE = 101, // x y or so on
-    SYSTEM_OPS = 102, // if else while
-    MATH_OPS = 103, // + - / * ^
-    MATH_FUNCS = 104, // cos sin
-    BOOL_SIGNS = 105, // < > ==
-    FUNC_NAMES = 106,
-    END = 228,
-    POINT = 229,
-    ASSIGN = 300
+    CLASS_NUMBER = 100,
+    CLASS_VARIABLE = 101, // x y or so on
+    CLASS_SYSTEM_OP = 102, // if else while
+    CLASS_MATH_OP = 103, // + - / * ^
+    CLASS_MATH_FUNC = 104, // cos sin
+    CLASS_BOOL_SIGN = 105, // < > ==
+    CLASS_FUNC_NAME = 106,
+    CLASS_END = 228,
+    CLASS_POINT = 229,
+    CLASS_ASSIGN = 300
 };
 
 enum INTERNAL_OP {
@@ -55,55 +54,20 @@ enum OP_PAIR {
     CLOSE
 };
 
+struct Data {
+    int type = -1; //GLOBAL TYPE
+    double value = -1;// INTERNAL_OP, BOOL_OP, MATH_OP_TYPE OR VALUE
+    char* name = nullptr; //name of function or variable
+};
+
 /**
  * struct is describing of the node of the ast tree
  */
 typedef struct Node {
-    MATH_OP_TYPE type;
-    int data_type;
-    char chVar;
-    double value;
     double index;
     Node* leftChild;
     Node* rightChild;
+    Data* data;
 }Node;
-
-//
-///**
-// * I use recursive descent algo
-// * @param tokens
-// * @return
-// */
-//Node* buildTree(std::vector<Token*>* tokens);
-//
-//const char* getNameOfOp(MATH_OP_TYPE type);
-//
-///**
-// * Calculate the value of expression using tree
-// * @param tree
-// * @return
-// */
-//double calculate(Node* tree);
-//
-//Node* getG(std::vector<Token*>::iterator* iterator);
-//
-//Node* getE(std::vector<Token*>::iterator* iterator);
-//
-//Node* getT(std::vector<Token*>::iterator* iterator);
-//
-//Node* createNode(Node* lNode, Node* rNode, MATH_OP_TYPE type, int index);
-//
-//Node* getP(std::vector<Token*>::iterator* iterator);
-//
-//Node* getN(std::vector<Token*>::iterator* iterator);
-//
-//bool requirePair(std::vector<Token*>::iterator* iterator);
-//
-//Node* getPOW(std::vector<Token*>::iterator* pIterator);
-//
-//Node* getId(std::vector<Token*>::iterator* pIterator);
-//
-//Node* createUnaryNode(Node* pNode, MATH_OP_TYPE type, int number);
-
 
 #endif //THE_CURE_LANGUAGE_LANGUAGE_H

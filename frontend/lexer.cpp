@@ -64,6 +64,8 @@ std::vector<Token*> doLexer(char* expr) {
     std::vector<Token*> tokens;
     int offset = 0;
     char* token = strtok(expr, " ");
+    double num = 0;
+    char *next = nullptr;
     while( token != nullptr ) {
         printf( " %s\n", token );
         for (; token != nullptr && ((strncmp(token,"",1) != 0) && (strncmp(token,"\n",1) != 0)); ) {
@@ -139,13 +141,13 @@ std::vector<Token*> doLexer(char* expr) {
                 else break;
             }
                 //toDo add macro and len
-            else if (checkMathOP(token) != -1) {
+            else if (checkMathOP(token, &offset) != -1) {
                 Token *elem = nullptr;
-                elem = new MathFunc(2, checkMathOP(token));
+                elem = new MathFunc(2, checkMathOP(token, &offset));//MATH
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
                 countOP++;
-                if (strlen(token) > 1)token += 3;
+                if (strlen(token) > 1)token += offset;
                 else break;
             } else if (checkBoolOp(token, &offset) != -1) { // BOOL_OP
                 Token *elem = nullptr;
@@ -164,8 +166,13 @@ std::vector<Token*> doLexer(char* expr) {
                 countOP++;
                 if (strlen(token) > 1)token += offset;
                 else break;
-            }
-            else if (tokens[tokens.size() - 1]->getTypeOP() == DEF_VAR
+            } else if(getDoubleNumber(token, &num, &next)){
+                    auto elem = new Num(num);
+                    elem->setNumber(countOP++);
+                    tokens.push_back(elem);
+                    if ((strncmp(next, "", 1) != 0) && (strncmp(next, "\n", 1) != 0)) token = next;
+                    else token = nullptr;
+            } else if (tokens[tokens.size() - 1]->getTypeOP() == DEF_VAR
             || tokens[tokens.size() - 1]->getTypeOP() == OPEN
             || dynamic_cast<BoolSign*>(tokens[tokens.size() - 1]) != nullptr
             || dynamic_cast<MathOp*>(tokens[tokens.size() - 1]) != nullptr
@@ -176,7 +183,7 @@ std::vector<Token*> doLexer(char* expr) {
                 countOP++;
                 if (strlen(token) > 1)token += strlen(token);
                 else break;
-            } else if (tokens[tokens.size() - 1]->getTypeOP() == DEF_FUNC) { // VAR //toDO:you need to put space before funcName! please
+            } else if (tokens[tokens.size() - 1]->getTypeOP() == DEF_FUNC) { // FUNC //toDO:you need to put space before funcName! please
                 Token *elem = new FuncName(token);
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
@@ -184,18 +191,8 @@ std::vector<Token*> doLexer(char* expr) {
                 if (strlen(token) > 1)token += strlen(token);
                 else break;
             } else {
-                double num = 0;
-                char *next = nullptr;
-                if (getDoubleNumber(token, &num, &next)) {
-                    auto elem = new Num(num);
-                    elem->setNumber(countOP++);
-                    tokens.push_back(elem);
-                    if ((strncmp(next, "", 1) != 0) && (strncmp(next, "\n", 1) != 0)) token = next;
-                    else token = nullptr;
-                } else {
-                    fprintf(stderr, "Syntax Error: Unexpected sign: %s!\n", token);
-                    exit(EXIT_FAILURE);
-                }
+                fprintf(stderr, "Syntax Error: Unexpected sign: %s!\n", token);
+                exit(EXIT_FAILURE);
             }
         }
         token = strtok(nullptr, " ");
@@ -326,15 +323,16 @@ int checkSystemOp(char* op, int* offset) {
     return -1;
 }
 
-int checkMathOP(char* mathOp) {
+int checkMathOP(char* mathOp, int* offset) {
 #define MATH
 #define OP_MATH_FUNC(name, type, length) {\
-            if (strncmp(#name, mathOp, length) == 0)\
-                return type;}
+            if (strncmp(#name, mathOp, length) == 0){\
+                *offset = length;\
+                return type;}}
 
 #include "chooseTheCure.h"
 
 #undef MATH
-
+    *offset = 0;
     return -1;
 }
