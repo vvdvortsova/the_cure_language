@@ -1,0 +1,41 @@
+graph astdump {
+_22MO1[shape=box, color=blue,label="-"]
+_22MO1 -- _13MO0;
+_13MO0 [label="0"]
+_22MO1 -- _22MO3;
+_22MO3 [label="3"]
+_13MO0[shape=box, color=blue,label="+"]
+_13MO0 -- _6MF7;
+_6MF7 [label="7"]
+_13MO0 -- _13MF8;
+_13MF8 [label="8"]
+_6MF7[shape=box, color=red,label="sin"]
+_6MF7 -- _5MO0;
+_5MO0 [label="0"]
+_5MO0[shape=box, color=blue,label="+"]
+_5MO0 -- _2N1;
+_2N1 [label="1"]
+_5MO0 -- _4N2;
+_4N2 [label="2"]
+_13MF8[shape=box, color=red,label="cos"]
+_13MF8 -- _12MO3;
+_12MO3 [label="3"]
+_12MO3[shape=box, color=blue,label="*"]
+_12MO3 -- _9N1;
+_9N1 [label="1"]
+_12MO3 -- _11N8;
+_11N8 [label="8"]
+_22MO3[shape=box, color=blue,label="*"]
+_22MO3 -- _14N5;
+_14N5 [label="5"]
+_22MO3 -- _22MF7;
+_22MF7 [label="7"]
+_22MF7[shape=box, color=red,label="sin"]
+_22MF7 -- _21MO0;
+_21MO0 [label="0"]
+_21MO0[shape=box, color=blue,label="+"]
+_21MO0 -- _18N1;
+_18N1 [label="1"]
+_21MO0 -- _20N2;
+_20N2 [label="2"]
+}

@@ -5,6 +5,10 @@
 #include <vector>
 #include <fstream>
 
+const char* getStringSystemOp(int num);
+const char* getStringMathOpAndFunc(int num);
+const char* getStringBoolOp(int num);
+
 enum MATH_OP_TYPE {
     ADD = 0,
     SUB = 1,
@@ -27,7 +31,7 @@ enum TYPE {
     CLASS_VARIABLE = 101, // x y or so on
     CLASS_SYSTEM_OP = 102, // if else while
     CLASS_MATH_OP = 103, // + - / * ^
-    CLASS_MATH_FUNC = 104, // cos sin
+    CLASS_MATH_FUNC = 104, // cos sin log
     CLASS_BOOL_SIGN = 105, // < > ==
     CLASS_FUNC_NAME = 106,
     CLASS_END = 228,
@@ -50,8 +54,8 @@ enum INTERNAL_OP {
 
 
 enum OP_PAIR {
-    OPEN,
-    CLOSE
+    OPEN = 401,
+    CLOSE = 402
 };
 
 struct Data {

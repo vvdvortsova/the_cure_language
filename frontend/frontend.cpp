@@ -1,29 +1,7 @@
 #include <stack>
-#include <cmath>
 #include "lexer.h"
 #include "frontend.h"
 
-const char* getNameOfOp(MATH_OP_TYPE type) {
-    switch(type) {
-        case ADD:
-            return "+";
-        case SUB:
-            return "-";
-        case DIV:
-            return "/";
-        case MUL:
-            return "*";
-        case POW:
-            return "^";
-        case SIN:
-            return "sin";
-        case COS:
-            return "cos";
-        default:
-            nullptr;
-    }
-    return nullptr;
-}
 
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();

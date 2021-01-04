@@ -1,1 +1,1 @@
-secrets ( 1 + 2 )$
+secrets ( 1 + 2 ) + cut_her ( 1 * 8 ) - 5 * secrets ( 1 + 2 )$
