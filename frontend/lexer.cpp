@@ -191,6 +191,7 @@ std::vector<Token*> doLexer(char* expr) {
                 if (strlen(token) > 1)token += strlen(token);
                 else break;
             } else {
+
                 fprintf(stderr, "Syntax Error: Unexpected sign: %s!\n", token);
                 exit(EXIT_FAILURE);
             }

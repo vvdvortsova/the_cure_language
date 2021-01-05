@@ -38,6 +38,10 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
         case CLASS_NUMBER:
             return;
         case CLASS_VARIABLE:
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "V" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
             return;
         case CLASS_MATH_FUNC:
             myfile << "_" << tree->index << "MF" << tree->data->value << "[shape=box, color=red,label=\"" << getStringMathOpAndFunc(tree->data->value) << "\"]\n";
@@ -52,8 +56,41 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
             myfile << "_" << tree->index << "MO" << tree->data->value << " -- ";
             writeChild(myfile, tree->rightChild);
             break;
+        case CLASS_SYSTEM_OP:
+            myfile << "_" << tree->index << "SO" << "[shape=doublecircle, color=green,label=\"" << getStringSystemOp(tree->data->value) << "\"]\n";
+            myfile << "_" << tree->index << "SO" << " -- ";
+            writeChild(myfile, tree->rightChild);
+            gravizDeepWriting(myfile, tree->rightChild, index);
+            return;
+        case CLASS_POINT:
+            myfile << "_" << tree->index << "P" << "[shape=star, color=green,label=\";\"]\n";
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "P" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "P" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
+        case CLASS_FUNC_NAME:
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "FN" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "FN" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
+        case DEF_FUNC:
+            myfile << "_" << tree->index << "DF" << "[shape=doublecircle, color=blue,label=\"" << getStringSystemOp(tree->data->type) << "\"]\n";
+            myfile << "_" << tree->index << "DF" << " -- ";
+            writeChild(myfile, tree->leftChild);
+            gravizDeepWriting(myfile, tree->leftChild, index);
+            return;
         default:
-            printf("Error in dump - undefined op class!");
+            printf("Error in dump - undefined op class!(1)%d\n", tree->data->type);
             exit(EXIT_FAILURE);
     }
     gravizDeepWriting(myfile, tree->leftChild, index);
@@ -63,8 +100,8 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
 void writeChild(std::ofstream &myfile, Node *tree) {
     switch (tree->data->type) {
         case CLASS_VARIABLE:
-            myfile << "_" << tree->index << "V" << tree->data->value << ";\n";
-            myfile << "_" << tree->index << "V" << tree->data->value << " [label=\"" << tree->data->name << "\"]\n";
+            myfile << "_" << tree->index << "V" << ";\n";
+            myfile << "_" << tree->index << "V" << " [shape=triangle,label=\"" << tree->data->name << "\"]\n";
             break;
         case CLASS_NUMBER:
             myfile << "_" << tree->index << "N" << tree->data->value << ";\n";
@@ -78,6 +115,26 @@ void writeChild(std::ofstream &myfile, Node *tree) {
             myfile << "_" << tree->index << "MF" << tree->data->value << ";\n";
             myfile << "_" << tree->index << "MF" << tree->data->value << " [label=\"" << tree->data->value << "\"]\n";
             break;
+        case DEF_FUNC:
+            myfile << "_" << tree->index << "DF" << ";\n";
+            myfile << "_" << tree->index << "DF"  << "[shape=doublecircle, color=blue,label=\"" << getStringSystemOp(tree->data->type) << "\"]\n";
+            break;
+        case CLASS_FUNC_NAME:
+            myfile << "_" << tree->index << "FN" << ";\n";
+            if(tree->data->value != -1) {
+                myfile << "_" << tree->index << "FN" << " [label=\"" << getStringSystemOp(tree->data->value) << "\"]\n";
+                break;
+            }
+            myfile << "_" << tree->index << "FN" << " [label=\"" << tree->data->name << "\"]\n";
+            break;
+        case CLASS_SYSTEM_OP:
+            myfile << "_" << tree->index << "SO" << ";\n";
+            myfile << "_" << tree->index << "SO" << " [label=\"" << tree->data->value << "\"]\n";
+            break;
+        case CLASS_POINT:
+            myfile << "_" << tree->index << "P" << ";\n";
+            break;
+
         default:
             myfile << "_" << tree->index << "_" << tree->data->type << ";\n";
     }

@@ -12,6 +12,6 @@ int main() {
     std::vector<Token*> a = doLexer(expr);
     auto tree = buildTree(&a);
     gravizDump("../gr1.dot", tree);
-    system(" dot -Tpdf ../gr1.dot -o gr1.pdf");
+//    system(" dot -Tpdf ../gr1.dot -o gr1.pdf");
     return 0;
 }

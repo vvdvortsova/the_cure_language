@@ -9,15 +9,6 @@
  */
 Node* buildTree(std::vector<Token*>* tokens);
 
-const char* getNameOfOp(MATH_OP_TYPE type);
-
-/**
- * Calculate the value of expression using tree
- * @param tree
- * @return
- */
-double calculate(Node* tree);
-
 Node* getG(std::vector<Token*>::iterator* iterator);
 
 Node* getE(std::vector<Token*>::iterator* iterator);
@@ -38,5 +29,12 @@ Node* getId(std::vector<Token*>::iterator* pIterator);
 
 Node* createUnaryNodeMathFunc(Node* val, MATH_OP_TYPE type, int number);
 
+Node* getA(std::vector<Token *>::iterator *iter);
+
+Node* createVarNode(Token *varToken, Node *rval);
+
+Node* createDefineVarNode(Token *pdef, Node *rVal);
+
+Node* createUnarySystemOP(Node *rval, INTERNAL_OP op, int index);
 
 #endif //THE_CURE_LANGUAGE_FRONTEND_H

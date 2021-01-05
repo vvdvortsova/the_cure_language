@@ -1,1 +1,17 @@
-secrets ( 1 + 2 ) + cut_her ( 1 * 8 ) - 5 * secrets ( 1 + 2 )$
+the_cure love ( n ) {
+    forest a = 10;
+ } ;
+
+ the_cure M (  ) {
+     forest b = 12;
+  } ;
+
+   the_cure flex (  ) {
+       forest b = 12;
+    } ;
+
+
+   the_cure M ( c ) {
+       forest l = 23;
+    } ;
+    $
