@@ -47,7 +47,7 @@ the_cure love ( n ) {
 Grammar:
 G ::= D | E $
 D ::= 'def' F '(' E ')' '{' Q '}' ';'
-Q ::= S '{' ';' S '}' *
+Q ::= S { ';' S } *
 S ::= C|E|W|R
 C ::= 'if' '(' B ')' { Q } { | 'else' { Q } } // if or if-else
 B ::= E [<>|&] E

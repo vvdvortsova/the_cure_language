@@ -1,59 +1,61 @@
 graph astdump {
-_2P[shape=star, color=green,label=";"]
-_2P -- _1P;
-_2P -- _7DF;
 _7DF[shape=doublecircle, color=blue,label="def_func"]
-_1P[shape=star, color=green,label=";"]
-_1P -- _0P;
-_1P -- _5DF;
-_5DF[shape=doublecircle, color=blue,label="def_func"]
-_0P[shape=star, color=green,label=";"]
-_0P -- _1DF;
-_1DF[shape=doublecircle, color=blue,label="def_func"]
-_0P -- _3DF;
-_3DF[shape=doublecircle, color=blue,label="def_func"]
-_1DF[shape=doublecircle, color=blue,label="def_func"]
-_1DF -- _0FN;
-_0FN [label="love"]
-_0FN -- _3V;
+_7DF -- _6FN;
+_6FN [label="love"]
+_6FN -- _3V;
 _3V [shape=triangle,label="n"]
-_0FN -- _6SO;
+_6FN -- _0OP;
+_0OP[shape=doublecircle, color=blue,label="op"]
+_0OP -- _6SO;
 _6SO [label="207"]
+_0OP -- _1OP;
 _6SO[shape=doublecircle, color=green,label="def_var"]
 _6SO -- _7V;
 _7V [shape=triangle,label="a"]
 _7V -- _9N10;
 _9N10 [label="10"]
-_3DF[shape=doublecircle, color=blue,label="def_func"]
-_3DF -- _2FN;
-_2FN [label="main"]
-_2FN -- _18SO;
-_18SO [label="207"]
-_18SO[shape=doublecircle, color=green,label="def_var"]
-_18SO -- _19V;
-_19V [shape=triangle,label="b"]
-_19V -- _21N12;
-_21N12 [label="12"]
-_5DF[shape=doublecircle, color=blue,label="def_func"]
-_5DF -- _4FN;
-_4FN [label="flex"]
-_4FN -- _30SO;
-_30SO [label="207"]
-_30SO[shape=doublecircle, color=green,label="def_var"]
-_30SO -- _31V;
-_31V [shape=triangle,label="b"]
-_31V -- _33N12;
-_33N12 [label="12"]
-_7DF[shape=doublecircle, color=blue,label="def_func"]
-_7DF -- _6FN;
-_6FN [label="main"]
-_6FN -- _40V;
-_40V [shape=triangle,label="c"]
-_6FN -- _43SO;
-_43SO [label="207"]
-_43SO[shape=doublecircle, color=green,label="def_var"]
-_43SO -- _44V;
-_44V [shape=triangle,label="l"]
-_44V -- _46N23;
-_46N23 [label="23"]
+_1OP[shape=doublecircle, color=blue,label="op"]
+_1OP -- _11SO;
+_11SO [label="207"]
+_1OP -- _2OP;
+_11SO[shape=doublecircle, color=green,label="def_var"]
+_11SO -- _12V;
+_12V [shape=triangle,label="c"]
+_12V -- _14N10;
+_14N10 [label="10"]
+_2OP[shape=doublecircle, color=blue,label="op"]
+_2OP -- _16SO;
+_16SO [label="207"]
+_2OP -- _3OP;
+_16SO[shape=doublecircle, color=green,label="def_var"]
+_16SO -- _17V;
+_17V [shape=triangle,label="k"]
+_17V -- _19N12;
+_19N12 [label="12"]
+_3OP[shape=doublecircle, color=blue,label="op"]
+_3OP -- _21SO;
+_21SO [label="207"]
+_3OP -- _4OP;
+_21SO[shape=doublecircle, color=green,label="def_var"]
+_21SO -- _22V;
+_22V [shape=triangle,label="hui"]
+_22V -- _24N10;
+_24N10 [label="10"]
+_4OP[shape=doublecircle, color=blue,label="op"]
+_4OP -- _26SO;
+_26SO [label="207"]
+_4OP -- _5OP;
+_26SO[shape=doublecircle, color=green,label="def_var"]
+_26SO -- _27V;
+_27V [shape=triangle,label="aaa"]
+_27V -- _29N10;
+_29N10 [label="10"]
+_5OP[shape=doublecircle, color=blue,label="op"]
+_5OP -- _31SO;
+_31SO [label="207"]
+_31SO[shape=doublecircle, color=green,label="def_var"]
+_31SO -- _32V;
+_32V [shape=triangle,label="nafig"]
+_32V -- _34N12;
+_34N12 [label="12"]
 }

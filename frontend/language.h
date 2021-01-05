@@ -36,7 +36,8 @@ enum TYPE {
     CLASS_FUNC_NAME = 106,
     CLASS_END = 228,
     CLASS_POINT = 229,
-    CLASS_ASSIGN = 300
+    CLASS_ASSIGN = 300,
+    CLASS_OP = 333
 };
 
 enum INTERNAL_OP {

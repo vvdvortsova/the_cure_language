@@ -86,6 +86,9 @@ const char* getStringSystemOp(int num) {
         case ELSE:
             op = "else";
             break;
+        case CLASS_OP:
+            op = "op";
+            break;
         default:
             op = nullptr;
             break;

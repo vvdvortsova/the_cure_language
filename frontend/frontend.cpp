@@ -12,6 +12,8 @@ Node *getQ(std::vector<Token *>::iterator *iter);
 
 Node *getS(std::vector<Token *>::iterator *iter);
 
+Node *createOp(Node *rVal);
+
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
     Node* tree = getG(&iter);
@@ -116,24 +118,40 @@ Node* getD(std::vector<Token *>::iterator* iter) {
 }
 
 Node* getQ(std::vector<Token *>::iterator* iter) {
+    printf("recursive parser(4)%d\n",(**iter)->getTypeOP());
     Node* firstCommand = getS(iter);
+    auto tmp = firstCommand;
+    Node* nextCommand = nullptr;
+    printf("recursive parser(5)%d\n",(**iter)->getTypeOP());
     while((**iter)->getTypeOP() == CLASS_POINT) {
         (*iter)++;
-        if (dynamic_cast<FigurePair *>(**iter) != nullptr) {
-            if (dynamic_cast<FigurePair *>(**iter)->getTypePair() != CLOSE) {
-                iter++;// means there is next command
-                Node* nextCommand = getS(iter);
-                firstCommand->rightChild = nextCommand;
-                firstCommand = nextCommand;
-            }
-        }
+        if (dynamic_cast<FigurePair *>(**iter) != nullptr)
+            break;
+        printf("recursive parser(6)%d\n",(**iter)->getTypeOP());
+        nextCommand = getS(iter);
+        printf("recursive parser(7)%d\n",(**iter)->getTypeOP());
+        firstCommand->rightChild = nextCommand;
+        firstCommand = nextCommand;
     }
-    return firstCommand;
+    printf("recursive parser(8)%d\n",firstCommand->data->type);
+    return tmp;
 }
 
 Node* getS(std::vector<Token *>::iterator* iter) {
     Node* rVal = getE(iter);
+    rVal = createOp(rVal);
     return rVal;
+}
+
+Node* createOp(Node *rVal) {
+    Node* node = new Node();
+    Data* data = new Data();
+    data->type = CLASS_OP;
+    data->value = CLASS_OP;
+    node->leftChild = rVal;
+    node->data = data;
+    node->index = countFuncDef++;
+    return node;
 }
 
 Node* getE(std::vector<Token*>::iterator* iter) {

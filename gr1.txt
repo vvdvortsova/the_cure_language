@@ -1,17 +1,9 @@
 the_cure love ( n ) {
     forest a = 10;
+    forest c = 10;
+    forest k = 12;
+    forest hui = 10;
+        forest aaa = 10;
+        forest nafig = 12;
  } ;
-
- the_cure M (  ) {
-     forest b = 12;
-  } ;
-
-   the_cure flex (  ) {
-       forest b = 12;
-    } ;
-
-
-   the_cure M ( c ) {
-       forest l = 23;
-    } ;
     $

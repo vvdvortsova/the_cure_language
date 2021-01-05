@@ -58,10 +58,15 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
             break;
         case CLASS_SYSTEM_OP:
             myfile << "_" << tree->index << "SO" << "[shape=doublecircle, color=green,label=\"" << getStringSystemOp(tree->data->value) << "\"]\n";
-            myfile << "_" << tree->index << "SO" << " -- ";
-            writeChild(myfile, tree->rightChild);
-            gravizDeepWriting(myfile, tree->rightChild, index);
-            return;
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "SO" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "SO" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
         case CLASS_POINT:
             myfile << "_" << tree->index << "P" << "[shape=star, color=green,label=\";\"]\n";
             if(tree->leftChild) {
@@ -85,10 +90,26 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
             break;
         case DEF_FUNC:
             myfile << "_" << tree->index << "DF" << "[shape=doublecircle, color=blue,label=\"" << getStringSystemOp(tree->data->type) << "\"]\n";
-            myfile << "_" << tree->index << "DF" << " -- ";
-            writeChild(myfile, tree->leftChild);
-            gravizDeepWriting(myfile, tree->leftChild, index);
-            return;
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "DF" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "DF" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
+        case CLASS_OP:
+            myfile << "_" << tree->index << "OP" << "[shape=doublecircle, color=blue,label=\"" << getStringSystemOp(tree->data->type) << "\"]\n";
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "OP" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "OP" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
         default:
             printf("Error in dump - undefined op class!(1)%d\n", tree->data->type);
             exit(EXIT_FAILURE);
@@ -134,7 +155,9 @@ void writeChild(std::ofstream &myfile, Node *tree) {
         case CLASS_POINT:
             myfile << "_" << tree->index << "P" << ";\n";
             break;
-
+        case CLASS_OP:
+            myfile << "_" << tree->index << "OP" << ";\n";
+            break;
         default:
             myfile << "_" << tree->index << "_" << tree->data->type << ";\n";
     }
