@@ -150,7 +150,6 @@ void writeChild(std::ofstream &myfile, Node *tree) {
             break;
         case CLASS_SYSTEM_OP:
             myfile << "_" << tree->index << "SO" << ";\n";
-            myfile << "_" << tree->index << "SO" << " [label=\"" << tree->data->value << "\"]\n";
             break;
         case CLASS_POINT:
             myfile << "_" << tree->index << "P" << ";\n";

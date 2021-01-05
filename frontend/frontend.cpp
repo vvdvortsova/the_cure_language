@@ -14,6 +14,8 @@ Node *getS(std::vector<Token *>::iterator *iter);
 
 Node *createOp(Node *rVal);
 
+Node *getR(std::vector<Token *>::iterator *iter);
+
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
     Node* tree = getG(&iter);
@@ -138,19 +140,47 @@ Node* getQ(std::vector<Token *>::iterator* iter) {
 }
 
 Node* getS(std::vector<Token *>::iterator* iter) {
-    Node* rVal = getE(iter);
+    Node* rVal = nullptr;
+    if ((**iter)->getTypeOP() == RETURN_OP) {
+        rVal = getR(iter);
+    }
+//
+//    else if((**iter)->getTypeOP() == IF_OP) {
+//
+//    }
+//
+//    else if((**iter)->getTypeOP() == WHILE_OP) {
+//
+//    }
+    else {
+        rVal = getE(iter);
+    }
+
     rVal = createOp(rVal);
     return rVal;
+}
+
+Node* getR(std::vector<Token *>::iterator* iter) {
+    Node* returnNode = new Node();
+    Data* dataReturn = new Data();
+    dataReturn->type = CLASS_SYSTEM_OP;
+    dataReturn->value = RETURN_OP;
+    returnNode->data = dataReturn;
+    returnNode->index = countFuncDef++;
+    (*iter)++;
+    Node* value = getE(iter);
+    returnNode->leftChild = value;
+    return returnNode;
 }
 
 Node* createOp(Node *rVal) {
     Node* node = new Node();
     Data* data = new Data();
     data->type = CLASS_OP;
-    data->value = CLASS_OP;
+//    data->value = CLASS_OP;
     node->leftChild = rVal;
     node->data = data;
-    node->index = countFuncDef++;
+    node->index = countFuncDef += 2;
     return node;
 }
 

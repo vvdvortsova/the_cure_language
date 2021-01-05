@@ -1,9 +1,10 @@
 the_cure love ( n ) {
     forest a = 10;
-    forest c = 10;
-    forest k = 12;
-    forest hui = 10;
-        forest aaa = 10;
-        forest nafig = 12;
+    last_dance	34 + a - 10  ;
  } ;
+
+ the_cure M ( n ) {
+     forest c = 10;
+     last_dance	15 ;
+  } ;
     $
