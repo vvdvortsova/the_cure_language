@@ -84,6 +84,13 @@ public:
     char* getCh() const { return ch;}
 };
 
+class CallFunc: public Token {
+    char* ch;
+public:
+    explicit CallFunc(char* _ch): Token(0, CLASS_CALL_FUNC), ch(_ch){}
+    char* getCh() const { return ch;}
+};
+
 class BoolSign: public Token {
 public:
     explicit BoolSign(int _type): Token(2, _type){}

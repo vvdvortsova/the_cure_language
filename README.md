@@ -20,26 +20,26 @@ Developed as part of a learning task for ISP RAS.
 |`secrets();`| `sin`      |
 |`lovesong();`| `log`      |
 |`forest a = 10;`| int a = 10;     |
+|`_aaa()`| call expr of func aaa     |
+
 Now, you can use free variable only in () block or after +/-/*/^/div 
 
 ```bash
-the_cure love ( n ) {
-    forest a = 10;
+the_cure  fib ( n ) {
+    a_strange_day  ( n < 2 ) {
+        last_dance 1 ;
+    } ;
+    last_dance (n * _fib ( n - 1 ) );
  } ;
 
- the_cure M (  ) {
-     forest b = 12;
-  } ;
+  the_cure  M ( ) {
+    forest n = 5;
+    forest res = _fib ( n ) ;
+    to_the_sky( res ) ;
+    last_dance (0) ;
+ } ;
 
-   the_cure flex (  ) {
-       forest b = 12;
-    } ;
-
-
-   the_cure M ( c ) {
-       forest l = 23;
-    } ;
-    $
+ $
 ```
 ![Screenshot](gr1.png)
 ##Grammar

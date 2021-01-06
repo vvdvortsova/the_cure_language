@@ -4,6 +4,8 @@
 
 int countFuncDef = 0;
 
+Node *getF(std::vector<Token *>::iterator *iter);
+
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
     Node* tree = getG(&iter);
@@ -314,7 +316,7 @@ Node* getE(std::vector<Token*>::iterator* iter) {
     }
 }
 
-Node *createDefineVarNode(Token *varToken, Node *rval) {
+Node* createDefineVarNode(Token *varToken, Node *rval) {
     //Node for def_var
     Data* data = new Data();
     data->type = CLASS_SYSTEM_OP;
@@ -412,10 +414,33 @@ Node* getP(std::vector<Token*>::iterator* iter) {
         }
     } else if(dynamic_cast<Num*>(**iter) != nullptr) {
         return getN(iter);
-    } else {
+    } else if(dynamic_cast<CallFunc*>(**iter) != nullptr) {
+        return getF(iter);
+    }else {
         return getId(iter);
     }
     return nullptr;
+}
+
+Node* getF(std::vector<Token*>::iterator* iter) {
+    Node* nodeCallF = new Node();
+    nodeCallF->index = (**iter)->getNumber();
+    Data* callData = new Data();
+    callData->type = CLASS_CALL_FUNC;
+    callData->name = dynamic_cast<CallFunc*>(**iter)->getCh();
+    nodeCallF->data = callData;
+    (*iter)++;//miss call name
+    if(!requirePair(iter)) {
+        printf("callExpr - requires open \"(\" \n");
+        return nullptr;
+    }
+    Node* nodeCallBody = getE(iter);
+    if(!requirePair(iter)) {
+        printf("callExpr - requires close \")\" \n");
+        return nullptr;
+    }
+    nodeCallF->leftChild = nodeCallBody;
+    return nodeCallF;
 }
 
 Node* getId(std::vector<Token*>::iterator* iter) {

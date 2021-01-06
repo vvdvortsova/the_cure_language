@@ -1,7 +1,16 @@
-the_cure love ( n ) {
-    forest a = 9 ;
-    lullaby( a > 4){ forest a = 9 ;};
-    last_dance 19;
+the_cure  fib ( n ) {
+    a_strange_day  ( n < 2 ) {
+        last_dance 1 ;
+    } ;
+    last_dance (n * _fib ( n - 1 ) );
  } ;
 
-    $
+  the_cure  M ( ) {
+    forest n = 5;
+    forest res = _fib ( n ) ;
+    to_the_sky( res ) ;
+    last_dance (0) ;
+ } ;
+
+ $
+

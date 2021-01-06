@@ -37,6 +37,7 @@ enum TYPE {
     CLASS_END = 228,
     CLASS_POINT = 229,
     CLASS_ASSIGN = 300,
+    CLASS_CALL_FUNC = 301,
     CLASS_OP = 333
 };
 

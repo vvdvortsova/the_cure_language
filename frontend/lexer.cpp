@@ -69,7 +69,14 @@ std::vector<Token*> doLexer(char* expr) {
     while( token != nullptr ) {
         printf( " %s\n", token );
         for (; token != nullptr && ((strncmp(token,"",1) != 0) && (strncmp(token,"\n",1) != 0)); ) {
-            if (strncmp(token, "(", 1) == 0) {
+            if (strncmp(token, "_", 1) == 0) {
+                auto elem = new CallFunc(token);
+                elem->setNumber(countOP);
+                tokens.push_back(elem);
+                countOP++;
+                if (strlen(token) > 1) token += strlen(token);
+                else break;
+            } else if (strncmp(token, "(", 1) == 0) {
                 auto elem = new Pair(OPEN);
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
@@ -241,6 +248,8 @@ std::vector<Token*> doLexer(char* expr) {
             }
         } else if (dynamic_cast<Var*>(*it) != nullptr) {
             std::cout << "Var(" << dynamic_cast<Var*>(*it)->getCh() << ")\n";
+        } else if (dynamic_cast<CallFunc*>(*it) != nullptr) {
+            std::cout << "CallFunc(" << dynamic_cast<CallFunc*>(*it)->getCh() << ")\n";
         } else if (dynamic_cast<MathFunc*>(*it) != nullptr) {
             if(dynamic_cast<MathFunc*>(*it)->getTypeOP() == COS)
                 std::cout << "cos\n";

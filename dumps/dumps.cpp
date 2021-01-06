@@ -42,7 +42,7 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
                 myfile << "_" << tree->index << "V" << " -- ";
                 writeChild(myfile, tree->rightChild);
             }
-            return;
+            break;
         case CLASS_MATH_FUNC:
             myfile << "_" << tree->index << "MF" << tree->data->value << "[shape=box, color=red,label=\"" << getStringMathOpAndFunc(tree->data->value) << "\"]\n";
             myfile << "_" << tree->index << "MF" << tree->data->value << " -- ";
@@ -121,6 +121,17 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
                 writeChild(myfile, tree->rightChild);
             }
             break;
+        case CLASS_CALL_FUNC:
+            myfile << "_" << tree->index << "CF" << " [shape=triangle,label=\"" << tree->data->name << "\"]\n";
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "CF" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "CF" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
         default:
             printf("Error in dump - undefined op class!(1)%d\n", tree->data->type);
             exit(EXIT_FAILURE);
@@ -170,6 +181,10 @@ void writeChild(std::ofstream &myfile, Node *tree) {
             break;
         case CLASS_BOOL_SIGN:
             myfile << "_" << tree->index << "BOP" << ";\n";
+            break;
+        case CLASS_CALL_FUNC:
+            myfile << "_" << tree->index << "CF" << ";\n";
+            myfile << "_" << tree->index << "CF" << " [shape=triangle,label=\"" << tree->data->name << "\"]\n";
             break;
         default:
             myfile << "_" << tree->index << "_" << tree->data->type << ";\n";
