@@ -1,6 +1,7 @@
 # The Cure language
+![Screenshot](friday.png)\
 Not only for ISP RAS but for everyone :)
-![Screenshot](friday.png)
+
 
 ## Description
 C-like language, keywords can be changed in the [file](/frontend/language.h).\
@@ -42,7 +43,7 @@ the_cure  fib ( n ) {
  $
 ```
 ![Screenshot](gr1.png)
-##Grammar
+## Grammar
 ```bash
 Grammar:
 G ::= D | E $
@@ -61,7 +62,14 @@ P ::= '(' E ')' | N | F '(' E ')'
 F ::= _[a-zA-z]*
 N ::= ['0'-'9']+
 ```
-
+## Warnings
+There are some rules(fitches/bugs/I'll improve it somehow):
+```bash
+Put space after variables
+To be succeeded put space everywhere :)
+And put space befor new func:)
+Please don't laugh too much
+```
 ## Documentation
 You can watch documentation by opening
 ```docs/html/index.html ``` in browser.

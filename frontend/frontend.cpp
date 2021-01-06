@@ -3,6 +3,7 @@
 #include "frontend.h"
 
 int countFuncDef = 0;
+int countOp = 0;
 
 Node *getF(std::vector<Token *>::iterator *iter);
 
@@ -215,7 +216,7 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
         elseData->type = CLASS_SYSTEM_OP;
         elseData->value = ELSE;
         elseNode->data = elseData;
-        elseNode->index = countFuncDef++;
+        elseNode->index = (**iter)->getNumber() + countFuncDef++;
         (*iter)++;//miss else token
         if(!requirePair(iter)) {
             printf("if-block - requires open \"{\" \n");
@@ -236,7 +237,7 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
         ifElseNode->data = ifElseData;
         ifElseNode->leftChild = ifNode;
         ifElseNode->rightChild = elseNode;
-        ifElseNode->index = countFuncDef++;
+        ifElseNode->index = countFuncDef++ + (**iter)->getNumber();
         return ifElseNode;
     }
     return ifNode;
@@ -267,7 +268,7 @@ Node* createBoolOp(Node* lVal, Node* rVal, BOOL_OP op) {
     boolNode->data = boolData;
     boolNode->leftChild = lVal;
     boolNode->rightChild = rVal;
-    boolNode->index = 5 + countFuncDef++;
+    boolNode->index = countFuncDef++;
     return boolNode;
 }
 
@@ -291,7 +292,7 @@ Node* createOp(Node *rVal) {
 //    data->value = CLASS_OP;
     node->leftChild = rVal;
     node->data = data;
-    node->index = countFuncDef += 2;
+    node->index = (++countFuncDef += 2)++;
     return node;
 }
 
@@ -497,6 +498,7 @@ Node* getId(std::vector<Token*>::iterator* iter) {
                     nodeVar->rightChild = nullptr;
                     nodeVar->index = elem->getNumber();
                     nodeVar->data = data;
+                    rval = nodeVar;
                     (*iter)++;
                 } else {
                     rval = getN(iter);

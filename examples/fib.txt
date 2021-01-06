@@ -38,4 +38,3 @@ the_cure M () {
      last_dance 0 ;
  } ;
   $
-

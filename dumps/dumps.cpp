@@ -45,16 +45,22 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
             break;
         case CLASS_MATH_FUNC:
             myfile << "_" << tree->index << "MF" << tree->data->value << "[shape=box, color=red,label=\"" << getStringMathOpAndFunc(tree->data->value) << "\"]\n";
-            myfile << "_" << tree->index << "MF" << tree->data->value << " -- ";
-            writeChild(myfile, tree->rightChild);
-            // no left child - only right
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "MF" << tree->data->value << " -- ";
+                writeChild(myfile, tree->rightChild);
+                // no left child - only right
+            }
             break;
         case CLASS_MATH_OP:
             myfile << "_" << tree->index << "MO" << tree->data->value << "[shape=box, color=blue,label=\"" << getStringMathOpAndFunc(tree->data->value) << "\"]\n";
-            myfile << "_" << tree->index << "MO" << tree->data->value << " -- ";
-            writeChild(myfile, tree->leftChild);
-            myfile << "_" << tree->index << "MO" << tree->data->value << " -- ";
-            writeChild(myfile, tree->rightChild);
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "MO" << tree->data->value << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "MO" << tree->data->value << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
             break;
         case CLASS_SYSTEM_OP:
             myfile << "_" << tree->index << "SO" << "[shape=doublecircle, color=green,label=\"" << getStringSystemOp(tree->data->value) << "\"]\n";
