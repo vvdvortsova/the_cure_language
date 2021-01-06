@@ -110,6 +110,17 @@ void gravizDeepWriting(std::ofstream& myfile, Node* tree, int *index) {
                 writeChild(myfile, tree->rightChild);
             }
             break;
+        case CLASS_BOOL_SIGN:
+            myfile << "_" << tree->index << "BOP" << "[shape=doublecircle, color=blue,label=\"" << getStringBoolOp(tree->data->value) << "\"]\n";
+            if(tree->leftChild) {
+                myfile << "_" << tree->index << "BOP" << " -- ";
+                writeChild(myfile, tree->leftChild);
+            }
+            if(tree->rightChild) {
+                myfile << "_" << tree->index << "BOP" << " -- ";
+                writeChild(myfile, tree->rightChild);
+            }
+            break;
         default:
             printf("Error in dump - undefined op class!(1)%d\n", tree->data->type);
             exit(EXIT_FAILURE);
@@ -156,6 +167,9 @@ void writeChild(std::ofstream &myfile, Node *tree) {
             break;
         case CLASS_OP:
             myfile << "_" << tree->index << "OP" << ";\n";
+            break;
+        case CLASS_BOOL_SIGN:
+            myfile << "_" << tree->index << "BOP" << ";\n";
             break;
         default:
             myfile << "_" << tree->index << "_" << tree->data->type << ";\n";

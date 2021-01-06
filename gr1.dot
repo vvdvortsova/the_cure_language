@@ -1,55 +1,103 @@
 graph astdump {
 _0P[shape=star, color=green,label=";"]
-_0P -- _6DF;
-_6DF[shape=doublecircle, color=blue,label="def_func"]
-_0P -- _13DF;
-_13DF[shape=doublecircle, color=blue,label="def_func"]
-_6DF[shape=doublecircle, color=blue,label="def_func"]
-_6DF -- _5FN;
-_5FN [label="love"]
-_5FN -- _3V;
+_0P -- _15DF;
+_15DF[shape=doublecircle, color=blue,label="def_func"]
+_0P -- _31DF;
+_31DF[shape=doublecircle, color=blue,label="def_func"]
+_15DF[shape=doublecircle, color=blue,label="def_func"]
+_15DF -- _14FN;
+_14FN [label="love"]
+_14FN -- _3V;
 _3V [shape=triangle,label="n"]
-_5FN -- _2OP;
-_2OP[shape=doublecircle, color=blue,label="op"]
-_2OP -- _6SO;
-_2OP -- _5OP;
-_6SO[shape=doublecircle, color=green,label="def_var"]
-_6SO -- _7V;
-_7V [shape=triangle,label="a"]
-_7V -- _9N10;
-_9N10 [label="10"]
-_5OP[shape=doublecircle, color=blue,label="op"]
-_5OP -- _2SO;
-_2SO[shape=doublecircle, color=green,label="return"]
-_2SO -- _17MO1;
-_17MO1 [label="1"]
-_17MO1[shape=box, color=blue,label="-"]
-_17MO1 -- _15MO0;
-_15MO0 [label="0"]
-_17MO1 -- _16N10;
-_16N10 [label="10"]
-_15MO0[shape=box, color=blue,label="+"]
-_15MO0 -- _12N34;
-_12N34 [label="34"]
-_15MO0 -- _14V;
-_14V [shape=triangle,label="a"]
-_13DF[shape=doublecircle, color=blue,label="def_func"]
-_13DF -- _12FN;
-_12FN [label="main"]
-_12FN -- _23V;
-_23V [shape=triangle,label="n"]
-_12FN -- _9OP;
+_14FN -- _9OP;
 _9OP[shape=doublecircle, color=blue,label="op"]
-_9OP -- _26SO;
-_9OP -- _12OP;
-_26SO[shape=doublecircle, color=green,label="def_var"]
-_26SO -- _27V;
-_27V [shape=triangle,label="c"]
-_27V -- _29N10;
-_29N10 [label="10"]
-_12OP[shape=doublecircle, color=blue,label="op"]
-_12OP -- _9SO;
-_9SO[shape=doublecircle, color=green,label="return"]
-_9SO -- _32N15;
-_32N15 [label="15"]
+_9OP -- _6SO;
+_9OP -- _11OP;
+_6SO[shape=doublecircle, color=green,label="IF_ELSE"]
+_6SO -- _7SO;
+_6SO -- _3SO;
+_7SO[shape=doublecircle, color=green,label="IF"]
+_7SO -- _5BOP;
+_7SO -- _3OP;
+_5BOP[shape=doublecircle, color=blue,label="="]
+_5BOP -- _8N1;
+_8N1 [label="1"]
+_5BOP -- _10N2;
+_10N2 [label="2"]
+_3OP[shape=doublecircle, color=blue,label="op"]
+_3OP -- _13SO;
+_13SO[shape=doublecircle, color=green,label="def_var"]
+_13SO -- _14V;
+_14V [shape=triangle,label="a"]
+_14V -- _16N12;
+_16N12 [label="12"]
+_3SO[shape=doublecircle, color=green,label="else"]
+_3SO -- _6OP;
+_6OP[shape=doublecircle, color=blue,label="op"]
+_6OP -- _21SO;
+_21SO[shape=doublecircle, color=green,label="def_var"]
+_21SO -- _22V;
+_22V [shape=triangle,label="a"]
+_22V -- _24N35;
+_24N35 [label="35"]
+_11OP[shape=doublecircle, color=blue,label="op"]
+_11OP -- _32MF7;
+_32MF7 [label="7"]
+_11OP -- _14OP;
+_32MF7[shape=box, color=red,label="sin"]
+_32MF7 -- _30N20;
+_30N20 [label="20"]
+_14OP[shape=doublecircle, color=blue,label="op"]
+_14OP -- _11SO;
+_11SO[shape=doublecircle, color=green,label="return"]
+_11SO -- _34N15;
+_34N15 [label="15"]
+_31DF[shape=doublecircle, color=blue,label="def_func"]
+_31DF -- _30FN;
+_30FN [label="main"]
+_30FN -- _41V;
+_41V [shape=triangle,label="n"]
+_30FN -- _25OP;
+_25OP[shape=doublecircle, color=blue,label="op"]
+_25OP -- _22SO;
+_25OP -- _27OP;
+_22SO[shape=doublecircle, color=green,label="IF_ELSE"]
+_22SO -- _45SO;
+_22SO -- _19SO;
+_45SO[shape=doublecircle, color=green,label="IF"]
+_45SO -- _21BOP;
+_45SO -- _19OP;
+_21BOP[shape=doublecircle, color=blue,label="="]
+_21BOP -- _46N1;
+_46N1 [label="1"]
+_21BOP -- _48N2;
+_48N2 [label="2"]
+_19OP[shape=doublecircle, color=blue,label="op"]
+_19OP -- _51SO;
+_51SO[shape=doublecircle, color=green,label="def_var"]
+_51SO -- _52V;
+_52V [shape=triangle,label="a"]
+_52V -- _54N12;
+_54N12 [label="12"]
+_19SO[shape=doublecircle, color=green,label="else"]
+_19SO -- _22OP;
+_22OP[shape=doublecircle, color=blue,label="op"]
+_22OP -- _59SO;
+_59SO[shape=doublecircle, color=green,label="def_var"]
+_59SO -- _60V;
+_60V [shape=triangle,label="a"]
+_60V -- _62N35;
+_62N35 [label="35"]
+_27OP[shape=doublecircle, color=blue,label="op"]
+_27OP -- _70MF7;
+_70MF7 [label="7"]
+_27OP -- _30OP;
+_70MF7[shape=box, color=red,label="sin"]
+_70MF7 -- _68N20;
+_68N20 [label="20"]
+_30OP[shape=doublecircle, color=blue,label="op"]
+_30OP -- _27SO;
+_27SO[shape=doublecircle, color=green,label="return"]
+_27SO -- _72N15;
+_72N15 [label="15"]
 }

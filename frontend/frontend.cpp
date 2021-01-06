@@ -16,6 +16,12 @@ Node *createOp(Node *rVal);
 
 Node *getR(std::vector<Token *>::iterator *iter);
 
+Node *getCondition(std::vector<Token *>::iterator *iter);
+
+Node *getB(std::vector<Token *>::iterator *iter);
+
+Node *createBoolOp(Node *lVal, Node *rVal, BOOL_OP op);
+
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
     Node* tree = getG(&iter);
@@ -143,11 +149,9 @@ Node* getS(std::vector<Token *>::iterator* iter) {
     Node* rVal = nullptr;
     if ((**iter)->getTypeOP() == RETURN_OP) {
         rVal = getR(iter);
+    } else if((**iter)->getTypeOP() == IF_OP) {
+        rVal = getCondition(iter);
     }
-//
-//    else if((**iter)->getTypeOP() == IF_OP) {
-//
-//    }
 //
 //    else if((**iter)->getTypeOP() == WHILE_OP) {
 //
@@ -160,7 +164,101 @@ Node* getS(std::vector<Token *>::iterator* iter) {
     return rVal;
 }
 
-Node* getR(std::vector<Token *>::iterator* iter) {
+Node* getCondition(std::vector<Token*>::iterator* iter) {
+    //try to understand it is just if block or if-else
+    //make if block
+    Node* ifNode = new Node();
+    Data* ifData = new Data();
+    ifData->type = CLASS_SYSTEM_OP;
+    ifData->value = IF_OP;
+    ifNode->data = ifData;
+    ifNode->index = (**iter)->getNumber() + 1;
+    (*iter)++; // miss if
+    if(!requirePair(iter)) {
+        printf("if-block - requires open \"(\" \n");
+        return nullptr;
+    }
+    Node* ifParam = getB(iter);
+    if(!requirePair(iter)) {
+        printf("if-block - requires close \")\" \n");
+        return nullptr;
+    } if(!requirePair(iter)) {
+        printf("if-block - requires open \"{\" \n");
+        return nullptr;
+    }
+
+    Node* ifBody = getQ(iter);
+    if(!requirePair(iter)) {
+        printf("if-block - requires close \"}\" \n");
+        return nullptr;
+    }
+
+    ifNode->leftChild = ifParam;
+    ifNode->rightChild = ifBody;
+
+    if((**iter)->getTypeOP() == ELSE) {
+        Node* elseNode = new Node();
+        Data* elseData = new Data();
+
+        elseData->type = CLASS_SYSTEM_OP;
+        elseData->value = ELSE;
+        elseNode->data = elseData;
+        elseNode->index = countFuncDef++;
+        (*iter)++;//miss else token
+        if(!requirePair(iter)) {
+            printf("if-block - requires open \"{\" \n");
+            return nullptr;
+        }
+        Node* elseBody = getQ(iter);
+        if(!requirePair(iter)) {
+            printf("if-block - requires close \"}\" \n");
+            return nullptr;
+        }
+        elseNode->leftChild = elseBody;
+
+        //create if-else Node
+        Node* ifElseNode = new Node();
+        Data* ifElseData = new Data();
+        ifElseData->type = CLASS_SYSTEM_OP;
+        ifElseData->value = IF_ELSE_OP;
+        ifElseNode->data = ifElseData;
+        ifElseNode->leftChild = ifNode;
+        ifElseNode->rightChild = elseNode;
+        ifElseNode->index = countFuncDef++;
+        return ifElseNode;
+    }
+    return ifNode;
+}
+
+Node* getB(std::vector<Token*>::iterator* iter) {
+    Node* lVal = getE(iter);
+    //sign
+    auto signToken = iter;
+    (*iter)++;
+    Node* rVal = getE(iter);
+    if((**signToken)->getTypeOP() == MORE) {
+        lVal = createBoolOp(lVal, rVal, MORE);
+    } else if ((**signToken)->getTypeOP() == LESS) {
+        lVal = createBoolOp(lVal, rVal, LESS);
+    } else {
+        lVal = createBoolOp(lVal, rVal, EQUAL);
+    }
+    return lVal;
+}
+
+Node* createBoolOp(Node* lVal, Node* rVal, BOOL_OP op) {
+    Node* boolNode = new Node();
+    Data* boolData = new Data();
+    boolData->type = CLASS_BOOL_SIGN;
+    boolData->value = op;
+    boolNode->data = boolData;
+    boolNode->leftChild = lVal;
+    boolNode->rightChild = rVal;
+    boolNode->index = 5 + countFuncDef++;
+    return boolNode;
+}
+
+Node* getR(std::vector<Token*>::iterator* iter) {
     Node* returnNode = new Node();
     Data* dataReturn = new Data();
     dataReturn->type = CLASS_SYSTEM_OP;
@@ -412,13 +510,13 @@ Node* createUnaryNodeMathFunc(Node* val, MATH_OP_TYPE type, int number) {
 bool requirePair(std::vector<Token*>::iterator* iter) {
     if (dynamic_cast<Pair*>(**iter) != nullptr) {
         auto item = dynamic_cast<Pair*>(**iter);
-        if(item->getTypePair() == CLOSE) {
+        if(item->getTypePair() == CLOSE || item->getTypePair() == OPEN) {
             (*iter)++;
             return  true;
         }
     } else if (dynamic_cast<FigurePair*>(**iter) != nullptr) {
         auto item = dynamic_cast<FigurePair*>(**iter);
-        if(item->getTypePair() == CLOSE) {
+        if(item->getTypePair() == CLOSE || item->getTypePair() == OPEN) {
             (*iter)++;
             return  true;
         }
