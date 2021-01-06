@@ -5,10 +5,11 @@ OP_MATH_FUNC(lovesong, 11, 8)
 
 #endif
 
-#ifdef BOOL_OP
+#ifdef BOOL_OP_SYS
+
 BOOL_OP_FUNC(>, 21, 1)
 BOOL_OP_FUNC(<, 22, 1)
-BOOL_OP_FUNC(==, 23, 1)
+BOOL_OP_FUNC(equel, 23, 5)
 
 #endif
 

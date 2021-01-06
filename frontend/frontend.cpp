@@ -4,24 +4,6 @@
 
 int countFuncDef = 0;
 
-Node *getD(std::vector<Token *>::iterator *iter);
-
-Node *createPointNode(Node *lVal, Node *rVal, int countFuncs);
-
-Node *getQ(std::vector<Token *>::iterator *iter);
-
-Node *getS(std::vector<Token *>::iterator *iter);
-
-Node *createOp(Node *rVal);
-
-Node *getR(std::vector<Token *>::iterator *iter);
-
-Node *getCondition(std::vector<Token *>::iterator *iter);
-
-Node *getB(std::vector<Token *>::iterator *iter);
-
-Node *createBoolOp(Node *lVal, Node *rVal, BOOL_OP op);
-
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
     Node* tree = getG(&iter);
@@ -39,7 +21,6 @@ Node* getG(std::vector<Token*>::iterator* iter) {
         countFuncs++;
     }
     (*iter)++;
-
 
     if(dynamic_cast<End*>(**iter) != nullptr) {
         return lVal;
@@ -152,16 +133,45 @@ Node* getS(std::vector<Token *>::iterator* iter) {
     } else if((**iter)->getTypeOP() == IF_OP) {
         rVal = getCondition(iter);
     }
-//
-//    else if((**iter)->getTypeOP() == WHILE_OP) {
-//
-//    }
+    else if((**iter)->getTypeOP() == WHILE_OP) {
+        rVal = getW(iter);
+    }
     else {
         rVal = getE(iter);
     }
 
     rVal = createOp(rVal);
     return rVal;
+}
+
+Node* getW(std::vector<Token*>::iterator* iter) {
+    Node* nodeWhile = new Node();
+    Data* dataWhile = new Data();
+    dataWhile->type = CLASS_SYSTEM_OP;
+    dataWhile->value = WHILE_OP;
+    nodeWhile->data = dataWhile;
+    nodeWhile->index = (**iter)->getNumber();
+    (*iter)++;//miss while token
+    if(!requirePair(iter)) {
+        printf("if-block - requires open \"(\" \n");
+        return nullptr;
+    }
+    Node* conditionWhile = getB(iter);
+    if(!requirePair(iter)) {
+        printf("if-block - requires close \")\" \n");
+        return nullptr;
+    } if(!requirePair(iter)) {
+        printf("if-block - requires open \"{\" \n");
+        return nullptr;
+    }
+    Node* bodyWhile = getQ(iter);
+    if(!requirePair(iter)) {
+        printf("if-block - requires close \"}\" \n");
+        return nullptr;
+    }
+    nodeWhile->leftChild = conditionWhile;
+    nodeWhile->rightChild = bodyWhile;
+    return nodeWhile;
 }
 
 Node* getCondition(std::vector<Token*>::iterator* iter) {
@@ -233,12 +243,13 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
 Node* getB(std::vector<Token*>::iterator* iter) {
     Node* lVal = getE(iter);
     //sign
-    auto signToken = iter;
+    auto signToken = (**iter)->getTypeOP();
     (*iter)++;
     Node* rVal = getE(iter);
-    if((**signToken)->getTypeOP() == MORE) {
+
+    if(signToken == MORE) {
         lVal = createBoolOp(lVal, rVal, MORE);
-    } else if ((**signToken)->getTypeOP() == LESS) {
+    } else if (signToken == LESS) {
         lVal = createBoolOp(lVal, rVal, LESS);
     } else {
         lVal = createBoolOp(lVal, rVal, EQUAL);

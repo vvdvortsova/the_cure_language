@@ -296,7 +296,7 @@ std::vector<Token*> doLexer(char* expr) {
 }
 
 int checkBoolOp(char* op, int* offset) {
-#define BOOL_OP
+#define BOOL_OP_SYS
 #define BOOL_OP_FUNC(name, number, length) {\
             if (strncmp(#name, op, length) == 0){\
                 *offset = length;\
@@ -304,7 +304,7 @@ int checkBoolOp(char* op, int* offset) {
 
 #include "chooseTheCure.h"
 
-#undef BOOL_OP
+#undef BOOL_OP_SYS
     *offset = 0;
     return -1;
 }

@@ -1,12 +1,7 @@
 the_cure love ( n ) {
-    a_strange_day ( 1 < 2){ forest a = 12; } boys_do_not_cry{ forest a = 35 ; } ;
-    secrets( 20 );
-    last_dance 15;
+    forest a = 9 ;
+    lullaby( a > 4){ forest a = 9 ;};
+    last_dance 19;
  } ;
- the_cure M ( n ) {
-     a_strange_day ( 1 < 2){ forest a = 12; } boys_do_not_cry{ forest a = 35 ; } ;
-     secrets( 20 );
-     last_dance 15;
-  } ;
 
     $
