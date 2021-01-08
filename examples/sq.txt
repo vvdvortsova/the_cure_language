@@ -1,0 +1,13 @@
+  the_cure  M ( ){
+    forest n = 4;
+    forest res = _sq ( n );
+    to_the_sky( res );
+    last_dance (0);
+ } ;
+
+ the_cure  sq ( n ){
+     forest res = n * n ;
+     last_dance ( res );
+  } ;
+
+ $

@@ -9,7 +9,7 @@ OP_MATH_FUNC(lovesong, 11, 8)
 
 BOOL_OP_FUNC(>, 21, 1)
 BOOL_OP_FUNC(<, 22, 1)
-BOOL_OP_FUNC(equel, 23, 5)
+BOOL_OP_FUNC(equal, 23, 5)
 
 #endif
 

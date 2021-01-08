@@ -22,30 +22,31 @@ Developed as part of a learning task for ISP RAS.
 |`lovesong();`| `log`      |
 |`forest a = 10;`| int a = 10;     |
 |`_aaa();`| call expr of func aaa     |
-|`equel`| == (some pain)   |
+|`equal`| ==    |
 
 
 Now, you can use free variable only in () block or after +/-/*/^/div 
 ![Screenshot](gr1.png)\
 FACTORIAL(5)
 ```bash
-  the_cure  M ( ) {
+  the_cure  M ( ){
     forest n = 5;
-    forest res = _fact ( n ) ;
-    to_the_sky( res ) ;
-    last_dance (0) ;
+    forest res = _fact ( n );
+    to_the_sky( res );
+    last_dance (0);
  } ;
 
- the_cure  fact ( n ) {
-     a_strange_day  ( n equel 1 ) {
+ the_cure  fact ( n ){
+     a_strange_day  ( n equal 1 ){
          last_dance 1 ;
      } ;
-     forest m = _fact ( n - 1 ) ;
+     forest m = _fact ( n - 1 );
      forest k = n * m ;
      last_dance ( k );
   } ;
 
  $
+
 ```
 FACTORIAL(ASM)
 ```bash
