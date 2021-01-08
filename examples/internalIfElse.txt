@@ -1,0 +1,20 @@
+  the_cure  M ( ) {
+    forest n = 0 ;
+    a_strange_day ( n equel 5) {
+        to_the_sky ( 1 ) ;
+    } boys_do_not_cry {
+        to_the_sky ( 2 );
+
+        a_strange_day (n equel 5) {
+                to_the_sky ( 3 );
+            } boys_do_not_cry {
+
+                to_the_sky ( 4 ) ;
+
+            };
+    };
+
+    last_dance (0) ;
+ } ;
+
+ $

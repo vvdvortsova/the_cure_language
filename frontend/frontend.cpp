@@ -2,10 +2,8 @@
 #include "lexer.h"
 #include "frontend.h"
 
-int countFuncDef = 0;
-int countOp = 0;
+int indexForNodes = 0;
 
-Node *getF(std::vector<Token *>::iterator *iter);
 
 Node* buildTree(std::vector<Token*>* tokens) {
     auto iter = tokens->begin();
@@ -42,7 +40,7 @@ Node* createPointNode(Node* lVal, Node* rVal, int countFuncs) {
     pointNode->leftChild = lVal;
     pointNode->rightChild = rVal;
     pointNode->data = pointData;
-    pointNode->index = countFuncs;
+    pointNode->index = countFuncs++;
 
     return pointNode;
 }
@@ -88,14 +86,14 @@ Node* getD(std::vector<Token *>::iterator* iter) {
 
         funcNode->leftChild = param;
         funcNode->rightChild = body;
-        funcNode->index = countFuncDef++;
+        funcNode->index = indexForNodes++;
 
         if(requirePair(iter)) { //Close - read params
             Node* defNode = new Node();
             Data* defData = new Data();
             defData->type = DEF_FUNC;
             defNode->leftChild = funcNode;
-            defNode->index = countFuncDef++;
+            defNode->index = indexForNodes++;
             defNode->data = defData;
             return defNode;
         } else {
@@ -110,22 +108,17 @@ Node* getD(std::vector<Token *>::iterator* iter) {
 }
 
 Node* getQ(std::vector<Token *>::iterator* iter) {
-    printf("recursive parser(4)%d\n",(**iter)->getTypeOP());
     Node* firstCommand = getS(iter);
     auto tmp = firstCommand;
     Node* nextCommand = nullptr;
-    printf("recursive parser(5)%d\n",(**iter)->getTypeOP());
     while((**iter)->getTypeOP() == CLASS_POINT) {
         (*iter)++;
         if (dynamic_cast<FigurePair *>(**iter) != nullptr)
             break;
-        printf("recursive parser(6)%d\n",(**iter)->getTypeOP());
         nextCommand = getS(iter);
-        printf("recursive parser(7)%d\n",(**iter)->getTypeOP());
         firstCommand->rightChild = nextCommand;
         firstCommand = nextCommand;
     }
-    printf("recursive parser(8)%d\n",firstCommand->data->type);
     return tmp;
 }
 
@@ -153,7 +146,7 @@ Node* getW(std::vector<Token*>::iterator* iter) {
     dataWhile->type = CLASS_SYSTEM_OP;
     dataWhile->value = WHILE_OP;
     nodeWhile->data = dataWhile;
-    nodeWhile->index = (**iter)->getNumber();
+    nodeWhile->index = indexForNodes++;
     (*iter)++;//miss while token
     if(!requirePair(iter)) {
         printf("if-block - requires open \"(\" \n");
@@ -185,7 +178,7 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
     ifData->type = CLASS_SYSTEM_OP;
     ifData->value = IF_OP;
     ifNode->data = ifData;
-    ifNode->index = (**iter)->getNumber() + 1;
+    ifNode->index = indexForNodes++;
     (*iter)++; // miss if
     if(!requirePair(iter)) {
         printf("if-block - requires open \"(\" \n");
@@ -216,7 +209,7 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
         elseData->type = CLASS_SYSTEM_OP;
         elseData->value = ELSE;
         elseNode->data = elseData;
-        elseNode->index = (**iter)->getNumber() + countFuncDef++;
+        elseNode->index = indexForNodes++;
         (*iter)++;//miss else token
         if(!requirePair(iter)) {
             printf("if-block - requires open \"{\" \n");
@@ -237,7 +230,7 @@ Node* getCondition(std::vector<Token*>::iterator* iter) {
         ifElseNode->data = ifElseData;
         ifElseNode->leftChild = ifNode;
         ifElseNode->rightChild = elseNode;
-        ifElseNode->index = countFuncDef++ + (**iter)->getNumber();
+        ifElseNode->index = indexForNodes++;
         return ifElseNode;
     }
     return ifNode;
@@ -268,7 +261,7 @@ Node* createBoolOp(Node* lVal, Node* rVal, BOOL_OP op) {
     boolNode->data = boolData;
     boolNode->leftChild = lVal;
     boolNode->rightChild = rVal;
-    boolNode->index = countFuncDef++;
+    boolNode->index = indexForNodes++;
     return boolNode;
 }
 
@@ -278,7 +271,7 @@ Node* getR(std::vector<Token*>::iterator* iter) {
     dataReturn->type = CLASS_SYSTEM_OP;
     dataReturn->value = RETURN_OP;
     returnNode->data = dataReturn;
-    returnNode->index = countFuncDef++;
+    returnNode->index = indexForNodes++;
     (*iter)++;
     Node* value = getE(iter);
     returnNode->leftChild = value;
@@ -292,7 +285,7 @@ Node* createOp(Node *rVal) {
 //    data->value = CLASS_OP;
     node->leftChild = rVal;
     node->data = data;
-    node->index = (++countFuncDef += 2)++;
+    node->index = (++indexForNodes += 2)++;
     return node;
 }
 
@@ -317,14 +310,14 @@ Node* getE(std::vector<Token*>::iterator* iter) {
     }
 }
 
-Node* createDefineVarNode(Token *varToken, Node *rval) {
+Node* createDefineVarNode(Token* varToken, Node* rval) {
     //Node for def_var
     Data* data = new Data();
     data->type = CLASS_SYSTEM_OP;
     data->value = DEF_VAR;
     auto elem = dynamic_cast<SystemOP*>(varToken);
     Node* varNode =  new Node();
-    varNode->index = elem->getNumber();
+    varNode->index = indexForNodes++;
     varNode->leftChild = nullptr;
     //add var
     varNode->rightChild = rval;
@@ -332,18 +325,17 @@ Node* createDefineVarNode(Token *varToken, Node *rval) {
     return varNode;
 }
 
-Node* getA(std::vector<Token *>::iterator *iter) {
+Node* getA(std::vector<Token*>::iterator* iter) {
     Token* var = **iter;
     (*iter) += 2;// var and =
     Node* rval = getE(iter);
     return createVarNode(var, rval);
 }
 
-Node *createVarNode(Token *varToken, Node *rval) {
+Node* createVarNode(Token* varToken, Node* rval) {
     //Node for var
     Data* data = new Data();
     data->type = CLASS_VARIABLE;
-//    data->value = DEF_VAR;
     auto elem = dynamic_cast<Var*>(varToken);
     data->name = elem->getCh();
     Node* varNode =  new Node();
@@ -527,7 +519,7 @@ Node *createUnarySystemOP(Node *rval, INTERNAL_OP op, int index) {
     Node* nodeVar =  new Node();
     nodeVar->leftChild = nullptr;
     nodeVar->rightChild = rval;
-    nodeVar->index = index;
+    nodeVar->index = indexForNodes++;
     nodeVar->data = data;
     return nodeVar;
 }

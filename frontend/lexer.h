@@ -119,8 +119,8 @@ public:
 std::vector<Token*> doLexer(char* expr);
 
 char* getExpressionFromFile(char* fName, int* size);
-int checkSystemOp(char* op, int* offset);
-int checkMathOP(char* mathOp, int* offset);
-int checkBoolOp(char* op, int* offset);
+int findSystemOp(char* op, int* offset);
+int findMathOP(char* mathOp, int* offset);
+int findBoolOp(char* op, int* offset);
 
 #endif //THE_CURE_LANGUAGE_LEXER_H

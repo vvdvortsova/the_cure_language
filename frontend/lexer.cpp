@@ -67,7 +67,7 @@ std::vector<Token*> doLexer(char* expr) {
     double num = 0;
     char *next = nullptr;
     while( token != nullptr ) {
-        printf( " %s\n", token );
+//        printf( " %s\n", token );
         for (; token != nullptr && ((strncmp(token,"",1) != 0) && (strncmp(token,"\n",1) != 0)); ) {
             if (strncmp(token, "_", 1) == 0) {
                 auto elem = new CallFunc(token);
@@ -148,25 +148,25 @@ std::vector<Token*> doLexer(char* expr) {
                 else break;
             }
                 //toDo add macro and len
-            else if (checkMathOP(token, &offset) != -1) {
+            else if (findMathOP(token, &offset) != -1) {
                 Token *elem = nullptr;
-                elem = new MathFunc(2, checkMathOP(token, &offset));//MATH
+                elem = new MathFunc(2, findMathOP(token, &offset));//MATH
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
                 countOP++;
                 if (strlen(token) > 1)token += offset;
                 else break;
-            } else if (checkBoolOp(token, &offset) != -1) { // BOOL_OP
+            } else if (findBoolOp(token, &offset) != -1) { // BOOL_OP
                 Token *elem = nullptr;
-                elem = new BoolSign(checkBoolOp(token, &offset)); //toDO:you need to put space before bool sign! please
+                elem = new BoolSign(findBoolOp(token, &offset)); //toDO:you need to put space before bool sign! please
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
                 countOP++;
                 if (strlen(token) > 1)token += offset;
                 else break;
-            } else if (checkSystemOp(token, &offset) != -1) { // SYSTEM_OP
+            } else if (findSystemOp(token, &offset) != -1) { // SYSTEM_OP
                 Token *elem = nullptr;
-                elem = new SystemOP(2, checkSystemOp(token, &offset));
+                elem = new SystemOP(2, findSystemOp(token, &offset));
 
                 elem->setNumber(countOP);
                 tokens.push_back(elem);
@@ -205,106 +205,106 @@ std::vector<Token*> doLexer(char* expr) {
         }
         token = strtok(nullptr, " ");
     }
-
-    //for debug
-    std::vector<Token*>::iterator it;
-    for (it = std::begin(tokens); it != std::end(tokens) ; ++it) {
-        if (dynamic_cast<FigurePair*>(*it) != nullptr) {
-            std::cout << "FigurePair{" << dynamic_cast<FigurePair*>(*it)->getTypePair() << "}\n";
-        } else if (dynamic_cast<Pair*>(*it) != nullptr) {
-            std::cout << "Pair(" << dynamic_cast<Pair*>(*it)->getTypePair() << ")\n";
-        } else if (dynamic_cast<SystemOP*>(*it) != nullptr) {
-            switch (dynamic_cast<SystemOP*>(*it)->getTypeOP()) {
-                case IF_OP:
-                    std::cout << "if\n";
-                    break;
-                case ELSE:
-                    std::cout << "else\n";
-                    break;
-                case RETURN_OP:
-                    std::cout << "return\n";
-                    break;
-                case WHILE_OP:
-                    std::cout << "while\n";
-                    break;
-                case DEF_FUNC:
-                    std::cout << "def func\n";
-                    break;
-                case PRINT_OP:
-                    std::cout << "print\n";
-                    break;
-                case SCAN_OP:
-                    std::cout << "scan\n";
-                    break;
-                case DEF_VAR:
-                    std::cout << "def var\n";
-                    break;
-                case M:
-                    std::cout << "main\n";
-                    break;
-                default:
-                    std::cout << dynamic_cast<SystemOP*>(*it)->getTypeOP() <<"????\n";
-                    break;
-            }
-        } else if (dynamic_cast<Var*>(*it) != nullptr) {
-            std::cout << "Var(" << dynamic_cast<Var*>(*it)->getCh() << ")\n";
-        } else if (dynamic_cast<CallFunc*>(*it) != nullptr) {
-            std::cout << "CallFunc(" << dynamic_cast<CallFunc*>(*it)->getCh() << ")\n";
-        } else if (dynamic_cast<MathFunc*>(*it) != nullptr) {
-            if(dynamic_cast<MathFunc*>(*it)->getTypeOP() == COS)
-                std::cout << "cos\n";
-            else
-                std::cout << "sin\n";
-        } else if (dynamic_cast<MathOp*>(*it) != nullptr) {
-            switch (dynamic_cast<MathOp*>(*it)->getTypeOP()) {
-                case ADD:
-                    std::cout << "add\n";
-                    break;
-                case SUB:
-                    std::cout << "sub\n";
-                    break;
-                case MUL:
-                    std::cout << "mul\n";
-                    break;
-                case DIV:
-                    std::cout << "div\n";
-                    break;
-                default:
-                    std::cout << "????\n";
-                    break;
-            }
-        } else if (dynamic_cast<Num*>(*it) != nullptr) {
-            std::cout << "Num(" << dynamic_cast<Num*>(*it)->getValue() << ")\n";
-        } else if (dynamic_cast<FuncName*>(*it) != nullptr) {
-            std::cout << "func " << dynamic_cast<FuncName*>(*it)->getCh() << "\n";
-        } else if (dynamic_cast<BoolSign*>(*it) != nullptr) {
-            switch (dynamic_cast<BoolSign*>(*it)->getTypeOP()) {
-                case MORE:
-                    std::cout << ">\n";
-                    break;
-                case LESS:
-                    std::cout << "<\n";
-                    break;
-                case EQUAL:
-                    std::cout << "==\n";
-                    break;
-                default:
-                    std::cout << "????\n";
-                    break;
-            }
-        } else if (dynamic_cast<End*>(*it) != nullptr) {
-            std::cout << "end\n";
-        } else if (dynamic_cast<Point*>(*it) != nullptr) {
-            std::cout << "point;\n";
-        } else if (dynamic_cast<AssignOP*>(*it) != nullptr) {
-            std::cout << "=\n";
-        }
-    }
+//
+//    //for debug
+//    std::vector<Token*>::iterator it;
+//    for (it = std::begin(tokens); it != std::end(tokens) ; ++it) {
+//        if (dynamic_cast<FigurePair*>(*it) != nullptr) {
+//            std::cout << "FigurePair{" << dynamic_cast<FigurePair*>(*it)->getTypePair() << "}\n";
+//        } else if (dynamic_cast<Pair*>(*it) != nullptr) {
+//            std::cout << "Pair(" << dynamic_cast<Pair*>(*it)->getTypePair() << ")\n";
+//        } else if (dynamic_cast<SystemOP*>(*it) != nullptr) {
+//            switch (dynamic_cast<SystemOP*>(*it)->getTypeOP()) {
+//                case IF_OP:
+//                    std::cout << "if\n";
+//                    break;
+//                case ELSE:
+//                    std::cout << "else\n";
+//                    break;
+//                case RETURN_OP:
+//                    std::cout << "return\n";
+//                    break;
+//                case WHILE_OP:
+//                    std::cout << "while\n";
+//                    break;
+//                case DEF_FUNC:
+//                    std::cout << "def func\n";
+//                    break;
+//                case PRINT_OP:
+//                    std::cout << "print\n";
+//                    break;
+//                case SCAN_OP:
+//                    std::cout << "scan\n";
+//                    break;
+//                case DEF_VAR:
+//                    std::cout << "def var\n";
+//                    break;
+//                case M:
+//                    std::cout << "main\n";
+//                    break;
+//                default:
+//                    std::cout << dynamic_cast<SystemOP*>(*it)->getTypeOP() <<"????\n";
+//                    break;
+//            }
+//        } else if (dynamic_cast<Var*>(*it) != nullptr) {
+//            std::cout << "Var(" << dynamic_cast<Var*>(*it)->getCh() << ")\n";
+//        } else if (dynamic_cast<CallFunc*>(*it) != nullptr) {
+//            std::cout << "CallFunc(" << dynamic_cast<CallFunc*>(*it)->getCh() << ")\n";
+//        } else if (dynamic_cast<MathFunc*>(*it) != nullptr) {
+//            if(dynamic_cast<MathFunc*>(*it)->getTypeOP() == COS)
+//                std::cout << "cos\n";
+//            else
+//                std::cout << "sin\n";
+//        } else if (dynamic_cast<MathOp*>(*it) != nullptr) {
+//            switch (dynamic_cast<MathOp*>(*it)->getTypeOP()) {
+//                case ADD:
+//                    std::cout << "add\n";
+//                    break;
+//                case SUB:
+//                    std::cout << "sub\n";
+//                    break;
+//                case MUL:
+//                    std::cout << "mul\n";
+//                    break;
+//                case DIV:
+//                    std::cout << "div\n";
+//                    break;
+//                default:
+//                    std::cout << "????\n";
+//                    break;
+//            }
+//        } else if (dynamic_cast<Num*>(*it) != nullptr) {
+//            std::cout << "Num(" << dynamic_cast<Num*>(*it)->getValue() << ")\n";
+//        } else if (dynamic_cast<FuncName*>(*it) != nullptr) {
+//            std::cout << "func " << dynamic_cast<FuncName*>(*it)->getCh() << "\n";
+//        } else if (dynamic_cast<BoolSign*>(*it) != nullptr) {
+//            switch (dynamic_cast<BoolSign*>(*it)->getTypeOP()) {
+//                case MORE:
+//                    std::cout << ">\n";
+//                    break;
+//                case LESS:
+//                    std::cout << "<\n";
+//                    break;
+//                case EQUAL:
+//                    std::cout << "==\n";
+//                    break;
+//                default:
+//                    std::cout << "????\n";
+//                    break;
+//            }
+//        } else if (dynamic_cast<End*>(*it) != nullptr) {
+//            std::cout << "end\n";
+//        } else if (dynamic_cast<Point*>(*it) != nullptr) {
+//            std::cout << "point;\n";
+//        } else if (dynamic_cast<AssignOP*>(*it) != nullptr) {
+//            std::cout << "=\n";
+//        }
+//    }
 
     return tokens;
 }
 
-int checkBoolOp(char* op, int* offset) {
+int findBoolOp(char* op, int* offset) {
 #define BOOL_OP_SYS
 #define BOOL_OP_FUNC(name, number, length) {\
             if (strncmp(#name, op, length) == 0){\
@@ -319,7 +319,7 @@ int checkBoolOp(char* op, int* offset) {
 }
 
 
-int checkSystemOp(char* op, int* offset) {
+int findSystemOp(char* op, int* offset) {
 #define SYSTEM
 #define SYSTEM_OP(name, number, length) {\
             if (strncmp(#name, op, length) == 0){\
@@ -333,7 +333,7 @@ int checkSystemOp(char* op, int* offset) {
     return -1;
 }
 
-int checkMathOP(char* mathOp, int* offset) {
+int findMathOP(char* mathOp, int* offset) {
 #define MATH
 #define OP_MATH_FUNC(name, type, length) {\
             if (strncmp(#name, mathOp, length) == 0){\

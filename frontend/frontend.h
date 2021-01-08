@@ -29,32 +29,34 @@ Node* getId(std::vector<Token*>::iterator* pIterator);
 
 Node* createUnaryNodeMathFunc(Node* val, MATH_OP_TYPE type, int number);
 
-Node* getA(std::vector<Token *>::iterator *iter);
+Node* getA(std::vector<Token*>::iterator* iter);
 
-Node* createVarNode(Token *varToken, Node *rval);
+Node* createVarNode(Token* varToken, Node* rval);
 
-Node* createDefineVarNode(Token *pdef, Node *rVal);
+Node* createDefineVarNode(Token* pdef, Node* rVal);
 
-Node* createUnarySystemOP(Node *rval, INTERNAL_OP op, int index);
+Node* createUnarySystemOP(Node* rval, INTERNAL_OP op, int index);
 
-Node *getD(std::vector<Token *>::iterator *iter);
+Node* getD(std::vector<Token*>::iterator* iter);
 
-Node *createPointNode(Node *lVal, Node *rVal, int countFuncs);
+Node* createPointNode(Node* lVal, Node* rVal, int countFuncs);
 
-Node *getQ(std::vector<Token *>::iterator *iter);
+Node* getQ(std::vector<Token*>::iterator* iter);
 
-Node *getS(std::vector<Token *>::iterator *iter);
+Node* getS(std::vector<Token *>::iterator *iter);
 
-Node *createOp(Node *rVal);
+Node* createOp(Node* rVal);
 
-Node *getR(std::vector<Token *>::iterator *iter);
+Node* getR(std::vector<Token*>::iterator* iter);
 
-Node *getCondition(std::vector<Token *>::iterator *iter);
+Node* getCondition(std::vector<Token*>::iterator* iter);
 
-Node *getB(std::vector<Token *>::iterator *iter);
+Node* getB(std::vector<Token*>::iterator* iter);
 
-Node *createBoolOp(Node *lVal, Node *rVal, BOOL_OP op);
+Node* createBoolOp(Node* lVal, Node* rVal, BOOL_OP op);
 
-Node *getW(std::vector<Token *>::iterator *iter);
+Node* getW(std::vector<Token*>::iterator* iter);
+
+Node* getF(std::vector<Token*>::iterator* iter);
 
 #endif //THE_CURE_LANGUAGE_FRONTEND_H

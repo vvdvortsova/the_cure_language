@@ -195,45 +195,4 @@ void writeChild(std::ofstream &myfile, Node *tree) {
         default:
             myfile << "_" << tree->index << "_" << tree->data->type << ";\n";
     }
-
-
 }
-
-
-void latexDump(char* outPath, Node* tree) {
-    assert(outPath);
-    assert(tree);
-    std::ofstream myfile;
-    myfile.open (outPath);
-    myfile << "\\documentclass{article}\n";
-    myfile << "\\begin{document}\n";
-    myfile << "$$";
-    latexDeepWriting(myfile, tree);
-    myfile << "$$";
-    myfile << "\n";
-    myfile << "\\end{document}\n";
-    myfile.close();
-}
-
-void latexDeepWriting(std::ofstream& myfile, Node* root) {
-    if(root == nullptr)
-        return;
-//    if(root->type != NUM) {
-//        if (root->type == DIV) {
-//            myfile << "\\frac{";
-//            latexDeepWriting(myfile, root->leftChild);
-//            myfile << "}{";
-//            latexDeepWriting(myfile, root->rightChild);
-//            myfile << "}";
-//            return;
-//        }
-//        myfile << "(";
-//        latexDeepWriting(myfile, root->leftChild);
-//        myfile << getNameOfOp(root->type);
-//        latexDeepWriting(myfile, root->rightChild);
-//        myfile << ")";
-//    } else {
-//        myfile << " "<< root->value << " ";
-//    }
-}
-

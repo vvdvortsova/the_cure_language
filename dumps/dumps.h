@@ -18,18 +18,4 @@ void gravizDump(char* outPath, Node* tree);
  */
 void gravizDeepWriting(std::ofstream& myfile, Node* tree, int* index);
 
-/**
- * Dumps tree into latex format
- * @param outPath
- * @param tree
- */
-void latexDump(char* outPath, Node* tree);
-
-/**
- * Helping method to walk the tree when latexDump is doing
- * @param myfile
- * @param root
- */
-void latexDeepWriting(std::ofstream& myfile, Node* root);
-
 #endif //THE_CURE_LANGUAGE_DUMPS_H
