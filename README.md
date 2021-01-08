@@ -26,7 +26,8 @@ Developed as part of a learning task for ISP RAS.
 
 
 Now, you can use free variable only in () block or after +/-/*/^/div 
-
+![Screenshot](gr1.png)\
+FACTORIAL(5)
 ```bash
   the_cure  M ( ) {
     forest n = 5;
@@ -116,7 +117,6 @@ make
 ./asm asm.txt masm 
 ./stack_machine masm
 ```
-![Screenshot](gr1.png)
 ## Grammar
 ```bash
 Grammar:
