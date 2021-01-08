@@ -120,7 +120,7 @@ make
 ## Grammar
 ```bash
 Grammar:
-G ::= D | E $
+G ::= D $
 D ::= 'def' F '(' E ')' '{' Q '}' ';'
 Q ::= S { ';' S } *
 S ::= C|E|W|R
@@ -139,6 +139,7 @@ N ::= ['0'-'9']+
 ## Warnings
 There are some rules(fitches/bugs/I'll improve it somehow):
 ```bash
+There are no global variables!
 Put space after variables
 To be succeeded put space everywhere :)
 And put space befor new func:)
