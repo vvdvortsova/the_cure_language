@@ -1,7 +1,7 @@
 # The Cure language
 ![Screenshot](friday.png)\
-Not only for ISP RAS but for everyone :)
-
+Not only for ISP RAS but for everyone :)\
+While I am writing the code you can listen to this [playlist](https://open.spotify.com/playlist/37i9dQZF1E4qna5ejnW0b9)
 
 ## Description
 C-like language, keywords can be changed in the [file](/frontend/language.h).\
