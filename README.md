@@ -150,9 +150,12 @@ Please don't laugh too much
 Но код с примером работает и компилируется 100%
 Frontend тоже рабочий
 Не сделала пример с квадратным уравнением, ибо надо добавить в язык корень(sqrt)
-TODO: add while, sqrt, docs and testing of course
-Да, не много с запятыми переборщила
+TODO: add while, if-else, sqrt, docs and testing of course
+TODO: оптимизатор для getE
+Да, с запятыми переборщила
 Put comma after fuction def and do not foget about $
+PS: Sorry for mix c/c++, because I just started writing in c++.
+    The code will improve.
 ```
 ## Documentation
 You can watch documentation by opening
