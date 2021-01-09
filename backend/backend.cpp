@@ -161,20 +161,8 @@ void startParsing(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUN
 void createIfElseAsm(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNCS) {
     //push param on the stack
     startParsing(root->leftChild->leftChild, file, FUNCS);
-    int numFunc = countOfIfElse++;
-    file << "call " << "fifElse" <<  numFunc << "\n";
-    long fileTmp = file.tellp();
-    file.seekp(0, std::ios::cur);
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
-    file <<"\n\n\n\n\n\n\n";
 
-    file << "fifElse" <<  numFunc << ":\n";
+
     switch (int(root->leftChild->leftChild->data->value)) {
         case MORE:
             createBoolOpASM(root, file, ASM_MORE, FUNCS);
@@ -188,18 +176,17 @@ void createIfElseAsm(Node* root, std::ofstream& file, std::vector<FuncScope*>** 
     }
     int jeCond = countOfIf++;
     file << " tifCond" << jeCond << "\n";
+    //put if
+    startParsing(root->leftChild->rightChild, file, FUNCS);
+    int tmpPointMain = countOfIf++;
+    file << "jmp tifMainCond" << tmpPointMain << "\n";
+
 
     //put else
-    startParsing(root->rightChild, file, FUNCS);
-    file << "ret\n";
-
     file << "tifCond" << jeCond << ":\n";
-    startParsing(root->leftChild->rightChild, file, FUNCS);
-    file << "ret\n";
-
-
-    file.seekp(fileTmp, std::ios::beg);
-
+    startParsing(root->rightChild, file, FUNCS);
+    file << "jmp" << " tifMainCond" << tmpPointMain << "\n";
+    file << "tifMainCond"<< tmpPointMain << ":\n";
 
 }
 

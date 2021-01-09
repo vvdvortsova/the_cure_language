@@ -1,0 +1,83 @@
+tmain:
+push 2
+pop [0]
+push 3
+pop [1]
+push [1]
+push [0]
+jl tifCond0
+push [0]
+push 8
+push 3
+add
+mul
+pop [2]
+push [2]
+out
+push [1]
+push [0]
+jl tifCond1
+push [0]
+push 8
+push 3
+add
+mul
+pop [2]
+push [2]
+out
+jmp tifMainCond2
+tifCond1:
+push [0]
+push 8
+push 3
+add
+mul
+pop [2]
+push [2]
+out
+jmp tifMainCond2
+tifMainCond2:
+jmp tifMainCond3
+tifCond0:
+push [1]
+push [0]
+jg tifCond4
+push [0]
+push 8
+push 3
+add
+mul
+pop [2]
+push [2]
+out
+jmp tifMainCond5
+tifCond4:
+push [0]
+push 8
+push 3
+add
+mul
+pop [2]
+push [2]
+out
+jmp tifMainCond5
+tifMainCond5:
+jmp tifMainCond3
+tifMainCond3:
+call fsq
+pop [3]
+push [3]
+out
+hlt
+
+fsq:
+push 0
+pop [4]
+in
+pop [4]
+push [4]
+push [4]
+mul
+pop [5]
+push [5]
+ret
