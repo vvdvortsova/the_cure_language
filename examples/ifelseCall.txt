@@ -1,0 +1,28 @@
+  the_cure  M ( ){
+    forest n = 2;
+    forest k = 3;
+     a_strange_day  ( n > k ){
+
+             forest l = (3 + 8) * n ;
+             to_the_sky( l );
+
+         } boys_do_not_cry {
+
+            forest l = (3 + 8) * n ;
+            to_the_sky( l );
+         };
+
+    forest b = _sq ( );
+    to_the_sky( b );
+    last_dance (0);
+ } ;
+
+
+  the_cure  sq ( ){
+      forest b = 0;
+      close_to_me( b );
+      forest res = b * b ;
+      last_dance ( res );
+   } ;
+
+ $

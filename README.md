@@ -15,7 +15,7 @@ Developed as part of a learning task for ISP RAS.
 |`last_dance ... ;`| `return`      |
 |`lullaby(){};  `| `while`   |
 |`the_cure M(){ last_dance 0;};`| int `main`(){return 0;}             |
-|`close_to_me(var or num);`| `in` var      |
+|`close_to_me( num );`| `in` var      |
 |`to_the_sky(var or num);`| `out` var      |
 |`cut_her();`| `cos `    |
 |`secrets();`| `sin`      |
@@ -60,13 +60,18 @@ pop [1]
 pop [0]
 push [1]
 out
-hlt
+hlt 
 
 ffact:
 pop [2]
 push 1
 push [2]
 je tifCond0
+jmp tifTempCond1
+tifCond0:
+push 1
+ret 
+jmp tifTempCond1
 tifTempCond1:
 push [2]
 push 1
@@ -80,13 +85,7 @@ push [2]
 mul
 pop [4]
 push [4]
-ret
-
-
-tifCond0:
-push 1
-ret
-jmp tifTempCond1
+ret 
 
 ```
 ## Structure

@@ -8,6 +8,8 @@ int countOfWhile     = 0;
 int ramFreeSpace     = 0;
 int currentFunc = 0;//"main"
 
+void createIfElseAsm(Node *root, std::ofstream &file, std::vector<FuncScope *> **FUNCS);
+
 const char* getAsmOp(int op) {
     switch(op) {
         case ASM_IN:
@@ -88,7 +90,8 @@ void startParsing(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUN
         case CLASS_SYSTEM_OP:
             switch(int(root->data->value)) {
                 case IF_ELSE_OP:
-                    break;
+                    createIfElseAsm(root, file, FUNCS);
+                    return;
                 case IF_OP:
                     createIFASM(root, file, FUNCS);
                     return;
@@ -141,8 +144,10 @@ void startParsing(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUN
             return;
         case CLASS_VARIABLE:
             createVariableASM(root, file, FUNCS);
-            if(root->rightChild && root->rightChild->data->type == CLASS_CALL_FUNC) {
-                file << "pop [" << ((**FUNCS)[currentFunc])->vars[0]->index << "]\n";
+            if(root->rightChild != nullptr) {
+                if( root->rightChild->data->type == CLASS_CALL_FUNC && root->rightChild->leftChild != nullptr) {
+                    file << "pop [" << ((**FUNCS)[currentFunc])->vars[0]->index << "]\n";
+                }
             }
             return;
         default:
@@ -153,9 +158,54 @@ void startParsing(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUN
     startParsing(root->rightChild, file, FUNCS);
 }
 
+void createIfElseAsm(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNCS) {
+    //push param on the stack
+    startParsing(root->leftChild->leftChild, file, FUNCS);
+    int numFunc = countOfIfElse++;
+    file << "call " << "fifElse" <<  numFunc << "\n";
+    long fileTmp = file.tellp();
+    file.seekp(0, std::ios::cur);
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+    file <<"\n\n\n\n\n\n\n";
+
+    file << "fifElse" <<  numFunc << ":\n";
+    switch (int(root->leftChild->leftChild->data->value)) {
+        case MORE:
+            createBoolOpASM(root, file, ASM_MORE, FUNCS);
+            break;
+        case LESS:
+            createBoolOpASM(root, file, ASM_LESS, FUNCS);
+            break;
+        case EQUAL:
+            createBoolOpASM(root, file, ASM_EQUAL, FUNCS);
+            break;
+    }
+    int jeCond = countOfIf++;
+    file << " tifCond" << jeCond << "\n";
+
+    //put else
+    startParsing(root->rightChild, file, FUNCS);
+    file << "ret\n";
+
+    file << "tifCond" << jeCond << ":\n";
+    startParsing(root->leftChild->rightChild, file, FUNCS);
+    file << "ret\n";
+
+
+    file.seekp(fileTmp, std::ios::beg);
+
+
+}
+
 void createCallFuncAsm(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNCS) {
-    //TODO: костыль: кладем текущий параметр на стек
-    //TODO: только потом вызываем
+    //кладем текущий параметр на стек
+    //только потом вызываем
     if(root->leftChild) {
         file << "push [" << ((**FUNCS)[currentFunc])->vars[0]->index << "]\n";
     }
@@ -167,18 +217,9 @@ void createCallFuncAsm(Node* root, std::ofstream& file, std::vector<FuncScope*>*
 
 }
 
-//TODO с отступами беда, я переделаю, только чуть позже, поймите и простите пожалуйта^_^
 void createIFASM(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNCS) {
     startParsing(root->leftChild, file, FUNCS);// try to find main first
-//    file << "call " << "fifFunc" << ++countOfIf << "\n";
-//    long fileTmp = file.tellp();
-//    file <<"\n\n\n\n\n\n\n";
-//    file.flush();
-//    file.seekp(100, std::ios::cur);// go the end of the file to describe function //toDo need more space
-//    file.seekp(file.tellp());
-//
-//    file <<"\n\n\n\n\n\n\n";//toDo нужно потом в файле руками убрать пробелы, точнее я пофикшу это
-//    file << "fifFunc" << countOfIf << ":\n";
+
     switch (int(root->leftChild->data->value)) {
         case MORE:
             createBoolOpASM(root, file, ASM_MORE, FUNCS);
@@ -192,15 +233,14 @@ void createIFASM(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNC
     }
     int jeCond = countOfIf++;
     file << " tifCond" << jeCond << "\n";
-    int tmpPoint = countOfIf++;
-    file << "tifTempCond" << tmpPoint << ":\n";
-    long fileTmp = file.tellp();
-    file.seekp(200, std::ios::cur);// go the end of the file to describe function //toDo need more space
-    file <<"\n\n\n\n\n\n\n";
+    int tmpPointMain = countOfIf++;
+    file << "jmp tifTempCond" << tmpPointMain << "\n";
+
+    //describe if
     file << "tifCond" << jeCond << ":\n";
     startParsing(root->rightChild, file, FUNCS);
-    file << "jmp" << " tifTempCond" << tmpPoint << "\n";
-    file.seekp(fileTmp, std::ios::beg);
+    file << "jmp" << " tifTempCond" << tmpPointMain << "\n";
+    file << "tifTempCond"<< tmpPointMain << ":\n";
 }
 
 void createBoolOpASM(Node* root, std::ofstream& file, int op, std::vector<FuncScope*> **FUNCS) {
@@ -214,24 +254,30 @@ void createMathOpASM(Node* root, std::ofstream& file, int op, std::vector<FuncSc
 
 void createOutputInputAsm(Node* root, std::ofstream& file, int op, std::vector<FuncScope *>** FUNCS) {
     if(root->rightChild->data->name) {
-        int varIndex = -1;
+        int varIndexInRam = -1;
+        int varIndexInVars = -1;
         for (int i = 0; i < ((**FUNCS)[currentFunc])->vars.size() ; ++i) {
             if(strcmp((**FUNCS)[currentFunc]->vars[i]->name, root->rightChild->data->name) == 0) {
-                varIndex = (**FUNCS)[currentFunc]->vars[i]->index;
+                varIndexInRam = (**FUNCS)[currentFunc]->vars[i]->index;
+                varIndexInVars = i;
                 break;
             }
         }
-        if(varIndex == -1) {
+        if(varIndexInRam == -1) {
             auto var = new VarIndex();
             var->index = ramFreeSpace++;
-            varIndex = var->index;
             var->name = root->data->name;
             (**FUNCS)[currentFunc]->vars.push_back(var);
         }
-        file << "push " << "[" << (**FUNCS)[currentFunc]->vars[varIndex]->index << "]\n";
-        file << getAsmOp(op) << "\n";
+        if(op == ASM_IN) {
+            file << getAsmOp(op) << "\n";
+            file << "pop " << "[" << (**FUNCS)[currentFunc]->vars[varIndexInVars]->index << "]\n";
+        } else {
+            file << "push " << "[" << (**FUNCS)[currentFunc]->vars[varIndexInVars]->index << "]\n";
+            file << getAsmOp(op) << "\n";
+        }
+
     } else {
-//        file << "push " << root->rightChild->data->value << "\n";
         startParsing(root->rightChild, file, FUNCS);
         file << getAsmOp(op) << "\n";
     }
@@ -266,7 +312,6 @@ void createVariableASM(Node* root, std::ofstream& file, std::vector<FuncScope*>*
 //        printf("===2 %s\n", root->data->name);
         auto var = new VarIndex();
         var->index = ramFreeSpace++;
-        varIndexInRAM = var->index;
         var->name = root->data->name;
         varIndexInVars = (**FUNCS)[currentFunc]->vars.size();
         (**FUNCS)[currentFunc]->vars.push_back(var);
