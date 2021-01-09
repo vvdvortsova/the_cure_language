@@ -1,0 +1,12 @@
+  the_cure  M ( ) {
+    forest n = 0;
+    lullaby( n < 5) {
+        forest n = n + 1;
+        to_the_sky( n ) ;
+    };
+
+    to_the_sky( n ) ;
+    last_dance (0) ;
+ } ;
+
+ $

@@ -146,12 +146,10 @@ And put space befor new func:)
 And put space befor and after variable
 Now it is without optimization
 Please don't laugh too much
-Тут много что нужно порефакторить и убрать лишнее
-+ backend не доделан, но я поняла как надо!:)
-Но код с примером работает и компилируется 100%
+Backend рабочий
 Frontend тоже рабочий
 Не сделала пример с квадратным уравнением, ибо надо добавить в язык корень(sqrt)
-TODO: add while, if-else, sqrt, docs and testing of course
+TODO: fix if-else, add sqrt, docs and testing of course
 TODO: оптимизатор для getE
 Да, с запятыми переборщила
 Put comma after fuction def and do not foget about $

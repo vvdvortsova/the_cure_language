@@ -1,0 +1,30 @@
+tmain:
+push 0
+pop [0]
+push 5
+push [0]
+tPreWhileCond0:
+jl twhileCond1
+jmp tMain2
+twhileCond1:
+push 1
+push [0]
+add
+pop [0]
+push [0]
+out
+push 5
+push [0]
+jmp tPreWhileCond0
+tMain2:
+push 5
+push [0]
+push 1
+push [0]
+add
+pop [0]
+push [0]
+out
+push [0]
+out
+hlt

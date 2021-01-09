@@ -52,7 +52,6 @@ void createOutputInputAsm(Node* root, std::ofstream& file, int op, std::vector<F
 
 void createMathOpASM(Node* root, std::ofstream& file, int op, std::vector<FuncScope*>** FUNCS);
 
-void createBoolOpASM(Node* root, std::ofstream& file, int op, std::vector<FuncScope*>** FUNCS);
 
 void createIFASM(Node* root, std::ofstream& file, std::vector<FuncScope*>** FUNCS);
 
